@@ -1,0 +1,9 @@
+{
+  "is-main": true,
+  "import": [
+    {
+      "path": "tiye/respo_css",
+      "alias": "lib"
+    }
+  ]
+}
