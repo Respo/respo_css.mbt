@@ -1,24 +1,117 @@
 ///|
+/// Represents CSS size values including absolute units, relative units, viewport units, and functions.
+///
+/// This enum provides type-safe representations for all CSS length and size values,
+/// from traditional pixels and percentages to modern viewport units and CSS functions.
+///
+/// # Examples
+///
+/// ```
+/// inspect(CssSize::Px(100.0), content="100px")
+/// inspect(CssSize::Percent(50.0), content="50%")
+/// inspect(CssSize::Rem(1.5), content="1.5rem")
+/// inspect(CssSize::Vw(80.0), content="80vw")
+/// ```
 pub(all) enum CssSize {
+  /// Automatic sizing - browser determines the size
+  /// ```mbt
+  /// inspect(CssSize::Auto, content="auto")
+  /// ```
   Auto
+  /// Pixels - absolute unit, most common for precise sizing
+  /// ```mbt
+  /// inspect(CssSize::Px(16.0), content="16px")
+  /// ```
   Px(Float)
+  /// Percentage - relative to parent element's corresponding dimension
+  /// ```mbt
+  /// inspect(CssSize::Percent(100.0), content="100%")
+  /// ```
   Percent(Float)
+  /// Em units - relative to current element's font size
+  /// ```mbt
+  /// inspect(CssSize::Em(1.2), content="1.2000000476837158em")
+  /// ```
   Em(Float)
+  /// Rem units - relative to root element's font size
+  /// ```mbt
+  /// inspect(CssSize::Rem(2.0), content="2rem")
+  /// ```
   Rem(Float)
+  /// Viewport width - percentage of viewport width
+  /// ```mbt
+  /// inspect(CssSize::Vw(50.0), content="50vw")
+  /// ```
   Vw(Float)
+  /// Viewport height - percentage of viewport height
+  /// ```mbt
+  /// inspect(CssSize::Vh(100.0), content="100vh")
+  /// ```
   Vh(Float)
+  /// Fractional units - for CSS Grid flexible sizing
+  /// ```mbt
+  /// inspect(CssSize::Fr(1.0), content="1fr")
+  /// ```
   Fr(Float)
+  /// Character units - relative to width of "0" character
+  /// ```mbt
+  /// inspect(CssSize::Ch(20.0), content="20ch")
+  /// ```
   Ch(Float)
+  /// Ex units - relative to height of "x" character
+  /// ```mbt
+  /// inspect(CssSize::Ex(2.0), content="2ex")
+  /// ```
   Ex(Float)
+  /// Viewport minimum - smaller of vw or vh
+  /// ```mbt
+  /// inspect(CssSize::Vmin(50.0), content="50vmin")
+  /// ```
   Vmin(Float)
+  /// Viewport maximum - larger of vw or vh
+  /// ```mbt
+  /// inspect(CssSize::Vmax(80.0), content="80vmax")
+  /// ```
   Vmax(Float)
+  /// Dynamic viewport height - adjusts to actual viewport
+  /// ```mbt
+  /// inspect(CssSize::Dvh(100.0), content="100dvh")
+  /// ```
   Dvh(Float)
+  /// Dynamic viewport width - adjusts to actual viewport
+  /// ```mbt
+  /// inspect(CssSize::Dvw(100.0), content="100dvw")
+  /// ```
   Dvw(Float)
+  /// Large viewport height - largest possible viewport height
+  /// ```mbt
+  /// inspect(CssSize::Lvh(100.0), content="100lvh")
+  /// ```
   Lvh(Float)
+  /// Large viewport width - largest possible viewport width
+  /// ```mbt
+  /// inspect(CssSize::Lvw(100.0), content="100lvw")
+  /// ```
   Lvw(Float)
+  /// Small viewport height - smallest possible viewport height
+  /// ```mbt
+  /// inspect(CssSize::Svh(100.0), content="100svh")
+  /// ```
   Svh(Float)
+  /// Small viewport width - smallest possible viewport width
+  /// ```mbt
+  /// inspect(CssSize::Svw(100.0), content="100svw")
+  /// ```
   Svw(Float)
+  /// CSS functions like calc(), min(), max(), clamp()
+  /// ```mbt
+  /// inspect(CssSize::Function(CssFunction::Calc("100vw - 40px")), content="calc(100vw - 40px)")
+  /// ```
   Function(CssFunction)
+  /// Custom CSS values not covered by other variants
+  /// ```mbt
+  /// inspect(CssSize::Custom("fit-content"), content="fit-content")
+  /// ```
   Custom(String)
 } derive(Eq)
 
@@ -50,7 +143,44 @@ pub impl Show for CssSize with output(self, logger) {
 }
 
 ///|
-/// use `respo_style` to create style, use `.add()` to add custom styles
+/// A type-safe CSS style container that holds CSS property-value pairs.
+///
+/// `RespoStyle` is the main struct for building and managing CSS styles in a functional way.
+/// It stores CSS properties as an array of string tuples and provides methods for combining,
+/// extending, and converting styles to CSS strings.
+///
+/// # Examples
+///
+/// ```moonbit
+/// // Create a basic style
+/// let style = respo_style(
+///   color=CssColor::Red,
+///   font_size=16,
+///   margin=CssSize::Px(10.0)
+/// )
+///
+/// // Add custom properties
+/// inspect(style.add("custom-property", "custom-value"), content="color:red; font-size:16px; margin:10px; custom-property:custom-value; ")
+///
+/// // Merge with another style
+/// let other = respo_style(background_color=CssColor::Blue)
+/// inspect(style.merge(other), content="color:red; font-size:16px; margin:10px; custom-property:custom-value; background-color:blue; ")
+///
+/// // Convert to CSS string
+/// inspect(style.to_string(), content="color:red; font-size:16px; margin:10px; custom-property:custom-value; background-color:blue; ")
+/// ```
+///
+/// # Usage
+///
+/// - Use `respo_style()` function to create new styles with type-safe properties
+/// - Use `.add()` method to add custom CSS properties not covered by the type system
+/// - Use `.merge()` method to combine multiple styles
+/// - Use `.to_string()` to generate the final CSS output
+///
+/// # Internal Structure
+///
+/// Internally stores CSS properties as `Array[(String, String)]` where each tuple
+/// represents a CSS property name and its corresponding value.
 pub(all) struct RespoStyle(Array[(String, String)]) derive(Eq, Default)
 
 // is_empty
@@ -653,11 +783,45 @@ pub impl Show for CssUserSelect with output(self, logger) {
 }
 
 ///|
+/// Represents CSS position property values that control element positioning behavior.
+///
+/// The position property determines how an element is positioned in the document
+/// and affects how the top, right, bottom, and left properties work.
+///
+/// # Examples
+///
+/// ```
+/// inspect(CssPosition::Static, content="static")
+/// inspect(CssPosition::Relative, content="relative")
+/// inspect(CssPosition::Absolute, content="absolute")
+/// inspect(CssPosition::Fixed, content="fixed")
+/// inspect(CssPosition::Sticky, content="sticky")
+/// ```
 pub(all) enum CssPosition {
+  /// Default positioning, follows normal document flow
+  /// ```mbt
+  /// inspect(CssPosition::Static, content="static")
+  /// ```
   Static
+  /// Positioned relative to its normal position
+  /// ```mbt
+  /// inspect(CssPosition::Relative, content="relative")
+  /// ```
   Relative
+  /// Positioned relative to nearest positioned ancestor
+  /// ```mbt
+  /// inspect(CssPosition::Absolute, content="absolute")
+  /// ```
   Absolute
+  /// Positioned relative to the viewport
+  /// ```mbt
+  /// inspect(CssPosition::Fixed, content="fixed")
+  /// ```
   Fixed
+  /// Switches between relative and fixed based on scroll position
+  /// ```mbt
+  /// inspect(CssPosition::Sticky, content="sticky")
+  /// ```
   Sticky
 } derive(Eq)
 
@@ -674,26 +838,119 @@ pub impl Show for CssPosition with output(self, logger) {
 }
 
 ///|
+/// Represents CSS color values in various formats including RGB, HSL, hex, and named colors.
+///
+/// This enum provides comprehensive support for CSS color specifications, from traditional
+/// hex and RGB values to modern HSL and HSLUV color spaces, plus common named colors.
+///
+/// # Examples
+///
+/// ```
+/// inspect(CssColor::Hex(255, 0, 0), content="#ff0000")
+/// inspect(CssColor::Rgb(0, 255, 0), content="rgb(0, 255, 0)")
+/// inspect(CssColor::Hsl(240, 100, 50), content="hsl(240, 100%, 50%)")
+/// inspect(CssColor::Blue, content="blue")
+/// ```
 pub(all) enum CssColor {
+  /// HSL color with alpha transparency (hue 0-360, saturation/lightness 0-100, alpha 0.0-1.0)
+  /// ```mbt
+  /// inspect(CssColor::Hsla(120, 100, 50, 0.8), content="hsla(120, 100%, 50%, 0.800000011920929)")
+  /// ```
   Hsla(UInt, UInt, UInt, Float)
+  /// HSL color space (hue 0-360, saturation/lightness 0-100)
+  /// ```mbt
+  /// inspect(CssColor::Hsl(0, 100, 50), content="hsl(0, 100%, 50%)")
+  /// ```
   Hsl(UInt, UInt, UInt)
+  /// HSLUV color with alpha transparency - perceptually uniform color space
+  /// ```mbt
+  /// inspect(CssColor::Hsluva(180, 80, 60, 0.9), content="hsluva(180, 80%, 60%, 0.8999999761581421)")
+  /// ```
   Hsluva(UInt, UInt, UInt, Float)
+  /// HSLUV color space - perceptually uniform alternative to HSL
+  /// ```mbt
+  /// inspect(CssColor::Hsluv(270, 90, 70), content="hsluv(270, 90%, 70%)")
+  /// ```
   Hsluv(UInt, UInt, UInt)
+  /// RGB color with alpha transparency (red/green/blue 0-255, alpha 0.0-1.0)
+  /// ```mbt
+  /// inspect(CssColor::Rgba(255, 128, 0, 0.7), content="rgba(255, 128, 0, 0.699999988079071)")
+  /// ```
   Rgba(UInt, UInt, UInt, Float)
+  /// RGB color space (red/green/blue values 0-255)
+  /// ```mbt
+  /// inspect(CssColor::Rgb(255, 255, 0), content="rgb(255, 255, 0)")
+  /// ```
   Rgb(UInt, UInt, UInt)
+  /// Hexadecimal color notation (red/green/blue values 0-255)
+  /// ```mbt
+  /// inspect(CssColor::Hex(255, 0, 255), content="#ff00ff")
+  /// ```
   Hex(UInt, UInt, UInt)
+  /// Named color: red
+  /// ```mbt
+  /// inspect(CssColor::Red, content="red")
+  /// ```
   Red
+  /// Named color: green
+  /// ```mbt
+  /// inspect(CssColor::Green, content="green")
+  /// ```
   Green
+  /// Named color: blue
+  /// ```mbt
+  /// inspect(CssColor::Blue, content="blue")
+  /// ```
   Blue
+  /// Named color: white
+  /// ```mbt
+  /// inspect(CssColor::White, content="white")
+  /// ```
   White
+  /// Named color: black
+  /// ```mbt
+  /// inspect(CssColor::Black, content="black")
+  /// ```
   Black
+  /// Named color: gray
+  /// ```mbt
+  /// inspect(CssColor::Gray, content="gray")
+  /// ```
   Gray
+  /// Named color: yellow
+  /// ```mbt
+  /// inspect(CssColor::Yellow, content="yellow")
+  /// ```
   Yellow
+  /// Named color: purple
+  /// ```mbt
+  /// inspect(CssColor::Purple, content="purple")
+  /// ```
   Purple
+  /// Named color: cyan
+  /// ```mbt
+  /// inspect(CssColor::Cyan, content="cyan")
+  /// ```
   Cyan
+  /// Named color: orange
+  /// ```mbt
+  /// inspect(CssColor::Orange, content="orange")
+  /// ```
   Orange
+  /// Named color: pink
+  /// ```mbt
+  /// inspect(CssColor::Pink, content="pink")
+  /// ```
   Pink
+  /// Custom CSS color value as raw string
+  /// ```mbt
+  /// inspect(CssColor::RawString("rebeccapurple"), content="rebeccapurple")
+  /// ```
   RawString(String)
+  /// Fully transparent color
+  /// ```mbt
+  /// inspect(CssColor::Transparent, content="transparent")
+  /// ```
   Transparent
 } derive(Eq)
 
@@ -703,8 +960,8 @@ fn uint_to_hex(value : UInt) -> String {
   let hex_digits = [
     "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f",
   ]
-  let high = (value / 16).to_int()
-  let low = (value % 16).to_int()
+  let high = (value / 16).reinterpret_as_int()
+  let low = (value % 16).reinterpret_as_int()
   hex_digits[high] + hex_digits[low]
 }
 
@@ -812,14 +1069,59 @@ pub impl Show for CssWordBreak with output(self, logger) {
 }
 
 ///|
+/// Represents CSS display property values that control element layout behavior.
+///
+/// The display property is fundamental to CSS layout, determining how an element
+/// participates in the document flow and how its children are laid out.
+///
+/// # Examples
+///
+/// ```
+/// inspect(CssDisplay::Block, content="block")
+/// inspect(CssDisplay::Flex, content="flex")
+/// inspect(CssDisplay::Grid, content="grid")
+/// inspect(CssDisplay::None, content="none")
+/// ```
 pub(all) enum CssDisplay {
+  /// Element generates a block-level box, taking full width
+  /// ```mbt
+  /// inspect(CssDisplay::Block, content="block")
+  /// ```
   Block
+  /// Element generates inline-level boxes that flow with text
+  /// ```mbt
+  /// inspect(CssDisplay::Inline, content="inline")
+  /// ```
   Inline
+  /// Element flows inline but behaves as a block internally
+  /// ```mbt
+  /// inspect(CssDisplay::InlineBlock, content="inline-block")
+  /// ```
   InlineBlock
+  /// Element becomes a block-level flex container
+  /// ```mbt
+  /// inspect(CssDisplay::Flex, content="flex")
+  /// ```
   Flex
+  /// Element becomes an inline-level flex container
+  /// ```mbt
+  /// inspect(CssDisplay::InlineFlex, content="inline-flex")
+  /// ```
   InlineFlex
+  /// Element becomes a block-level grid container
+  /// ```mbt
+  /// inspect(CssDisplay::Grid, content="grid")
+  /// ```
   Grid
+  /// Element becomes an inline-level grid container
+  /// ```mbt
+  /// inspect(CssDisplay::InlineGrid, content="inline-grid")
+  /// ```
   InlineGrid
+  /// Element is completely removed from the document flow
+  /// ```mbt
+  /// inspect(CssDisplay::None, content="none")
+  /// ```
   None
 } derive(Eq)
 
@@ -839,9 +1141,33 @@ pub impl Show for CssDisplay with output(self, logger) {
 }
 
 ///|
+/// Represents CSS flex-wrap property values that control how flex items wrap within a flex container.
+///
+/// The flex-wrap property determines whether flex items are forced onto a single line
+/// or can wrap onto multiple lines, and the direction of any new lines.
+///
+/// # Examples
+///
+/// ```
+/// inspect(CssFlexWrap::Wrap, content="wrap")
+/// inspect(CssFlexWrap::Nowrap, content="nowrap")
+/// inspect(CssFlexWrap::WrapReverse, content="wrap-reverse")
+/// ```
 pub(all) enum CssFlexWrap {
+  /// Flex items wrap onto multiple lines as needed
+  /// ```mbt
+  /// inspect(CssFlexWrap::Wrap, content="wrap")
+  /// ```
   Wrap
+  /// Flex items are forced onto a single line (default)
+  /// ```mbt
+  /// inspect(CssFlexWrap::Nowrap, content="nowrap")
+  /// ```
   Nowrap
+  /// Flex items wrap onto multiple lines in reverse order
+  /// ```mbt
+  /// inspect(CssFlexWrap::WrapReverse, content="wrap-reverse")
+  /// ```
   WrapReverse
 } derive(Eq)
 
@@ -856,10 +1182,39 @@ pub impl Show for CssFlexWrap with output(self, logger) {
 }
 
 ///|
+/// Represents CSS flex-direction property values that control the main axis of flex containers.
+///
+/// The flex-direction property establishes the main axis of a flex container,
+/// determining the direction flex items are placed and how they flow.
+///
+/// # Examples
+///
+/// ```
+/// inspect(CssFlexDirection::Row, content="row")
+/// inspect(CssFlexDirection::Column, content="column")
+/// inspect(CssFlexDirection::RowReverse, content="row-reverse")
+/// inspect(CssFlexDirection::ColumnReverse, content="column-reverse")
+/// ```
 pub(all) enum CssFlexDirection {
+  /// Items flow horizontally from left to right (default direction)
+  /// ```mbt
+  /// inspect(CssFlexDirection::Row, content="row")
+  /// ```
   Row
+  /// Items flow horizontally from right to left (reversed horizontal)
+  /// ```mbt
+  /// inspect(CssFlexDirection::RowReverse, content="row-reverse")
+  /// ```
   RowReverse
+  /// Items flow vertically from top to bottom
+  /// ```mbt
+  /// inspect(CssFlexDirection::Column, content="column")
+  /// ```
   Column
+  /// Items flow vertically from bottom to top (reversed vertical)
+  /// ```mbt
+  /// inspect(CssFlexDirection::ColumnReverse, content="column-reverse")
+  /// ```
   ColumnReverse
 } derive(Eq)
 
@@ -875,9 +1230,33 @@ pub impl Show for CssFlexDirection with output(self, logger) {
 }
 
 ///|
+/// Represents CSS vertical-align property values that control vertical alignment of inline elements.
+///
+/// The vertical-align property sets the vertical alignment of an inline, inline-block,
+/// or table-cell element relative to its parent's baseline or line box.
+///
+/// # Examples
+///
+/// ```
+/// inspect(CssVerticalAlign::Top, content="top")
+/// inspect(CssVerticalAlign::Middle, content="middle")
+/// inspect(CssVerticalAlign::Bottom, content="bottom")
+/// ```
 pub(all) enum CssVerticalAlign {
+  /// Aligns the top of the element with the top of the line box
+  /// ```mbt
+  /// inspect(CssVerticalAlign::Top, content="top")
+  /// ```
   Top
+  /// Aligns the middle of the element with the middle of the line box
+  /// ```mbt
+  /// inspect(CssVerticalAlign::Middle, content="middle")
+  /// ```
   Middle
+  /// Aligns the bottom of the element with the bottom of the line box
+  /// ```mbt
+  /// inspect(CssVerticalAlign::Bottom, content="bottom")
+  /// ```
   Bottom
 }
 
@@ -892,12 +1271,48 @@ pub impl Show for CssVerticalAlign with output(self, logger) {
 }
 
 ///|
+/// Represents CSS justify-content property values that control alignment along the main axis in flex containers.
+///
+/// The justify-content property defines how flex items are distributed along the main axis
+/// of a flex container, controlling spacing and alignment.
+///
+/// # Examples
+///
+/// ```
+/// inspect(CssFlexJustifyContent::FlexStart, content="flex-start")
+/// inspect(CssFlexJustifyContent::Center, content="center")
+/// inspect(CssFlexJustifyContent::SpaceBetween, content="space-between")
+/// ```
 pub(all) enum CssFlexJustifyContent {
+  /// Items are packed toward the start of the flex direction
+  /// ```mbt
+  /// inspect(CssFlexJustifyContent::FlexStart, content="flex-start")
+  /// ```
   FlexStart
+  /// Items are packed toward the end of the flex direction
+  /// ```mbt
+  /// inspect(CssFlexJustifyContent::FlexEnd, content="flex-end")
+  /// ```
   FlexEnd
+  /// Items are centered along the main axis
+  /// ```mbt
+  /// inspect(CssFlexJustifyContent::Center, content="center")
+  /// ```
   Center
+  /// Items are evenly distributed with space between them
+  /// ```mbt
+  /// inspect(CssFlexJustifyContent::SpaceBetween, content="space-between")
+  /// ```
   SpaceBetween
+  /// Items are evenly distributed with equal space around them
+  /// ```mbt
+  /// inspect(CssFlexJustifyContent::SpaceAround, content="space-around")
+  /// ```
   SpaceAround
+  /// Items are evenly distributed with equal space between them
+  /// ```mbt
+  /// inspect(CssFlexJustifyContent::SpaceEvenly, content="space-evenly")
+  /// ```
   SpaceEvenly
 } derive(Eq)
 
@@ -915,11 +1330,43 @@ pub impl Show for CssFlexJustifyContent with output(self, logger) {
 }
 
 ///|
+/// Represents CSS align-items property values that control alignment along the cross axis in flex containers.
+///
+/// The align-items property defines how flex items are aligned along the cross axis
+/// (perpendicular to the main axis) of a flex container.
+///
+/// # Examples
+///
+/// ```
+/// inspect(CssFlexAlignItems::FlexStart, content="flex-start")
+/// inspect(CssFlexAlignItems::Center, content="center")
+/// inspect(CssFlexAlignItems::Stretch, content="stretch")
+/// ```
 pub(all) enum CssFlexAlignItems {
+  /// Items are aligned to the start of the cross axis
+  /// ```mbt
+  /// inspect(CssFlexAlignItems::FlexStart, content="flex-start")
+  /// ```
   FlexStart
+  /// Items are aligned to the end of the cross axis
+  /// ```mbt
+  /// inspect(CssFlexAlignItems::FlexEnd, content="flex-end")
+  /// ```
   FlexEnd
+  /// Items are centered along the cross axis
+  /// ```mbt
+  /// inspect(CssFlexAlignItems::Center, content="center")
+  /// ```
   Center
+  /// Items are aligned to their baselines
+  /// ```mbt
+  /// inspect(CssFlexAlignItems::Baseline, content="baseline")
+  /// ```
   Baseline
+  /// Items are stretched to fill the container (default)
+  /// ```mbt
+  /// inspect(CssFlexAlignItems::Stretch, content="stretch")
+  /// ```
   Stretch
 } derive(Eq)
 
@@ -936,12 +1383,48 @@ pub impl Show for CssFlexAlignItems with output(self, logger) {
 }
 
 ///|
+/// Represents CSS align-content property values that control alignment of flex lines in multi-line flex containers.
+///
+/// The align-content property aligns flex lines when there is extra space in the cross axis,
+/// similar to how justify-content aligns items within the main axis.
+///
+/// # Examples
+///
+/// ```
+/// inspect(CssFlexAlignContent::FlexStart, content="flex-start")
+/// inspect(CssFlexAlignContent::Center, content="center")
+/// inspect(CssFlexAlignContent::SpaceBetween, content="space-between")
+/// ```
 pub(all) enum CssFlexAlignContent {
+  /// Lines are packed toward the start of the cross axis
+  /// ```mbt
+  /// inspect(CssFlexAlignContent::FlexStart, content="flex-start")
+  /// ```
   FlexStart
+  /// Lines are packed toward the end of the cross axis
+  /// ```mbt
+  /// inspect(CssFlexAlignContent::FlexEnd, content="flex-end")
+  /// ```
   FlexEnd
+  /// Lines are centered along the cross axis
+  /// ```mbt
+  /// inspect(CssFlexAlignContent::Center, content="center")
+  /// ```
   Center
+  /// Lines are evenly distributed with space between them
+  /// ```mbt
+  /// inspect(CssFlexAlignContent::SpaceBetween, content="space-between")
+  /// ```
   SpaceBetween
+  /// Lines are evenly distributed with equal space around them
+  /// ```mbt
+  /// inspect(CssFlexAlignContent::SpaceAround, content="space-around")
+  /// ```
   SpaceAround
+  /// Lines are stretched to fill the container (default)
+  /// ```mbt
+  /// inspect(CssFlexAlignContent::Stretch, content="stretch")
+  /// ```
   Stretch
 } derive(Eq)
 
@@ -959,9 +1442,33 @@ pub impl Show for CssFlexAlignContent with output(self, logger) {
 }
 
 ///|
+/// Represents CSS border-style property values that control the appearance of element borders.
+///
+/// The border-style property defines the visual style of an element's border,
+/// determining how the border line is drawn.
+///
+/// # Examples
+///
+/// ```
+/// inspect(CssBorderStyle::Solid, content="solid")
+/// inspect(CssBorderStyle::Dashed, content="dashed")
+/// inspect(CssBorderStyle::Dotted, content="dotted")
+/// ```
 pub(all) enum CssBorderStyle {
+  /// A continuous solid line border
+  /// ```mbt
+  /// inspect(CssBorderStyle::Solid, content="solid")
+  /// ```
   Solid
+  /// A border made of dashes
+  /// ```mbt
+  /// inspect(CssBorderStyle::Dashed, content="dashed")
+  /// ```
   Dashed
+  /// A border made of dots
+  /// ```mbt
+  /// inspect(CssBorderStyle::Dotted, content="dotted")
+  /// ```
   Dotted
 } derive(Eq)
 
@@ -976,6 +1483,28 @@ pub impl Show for CssBorderStyle with output(self, logger) {
 }
 
 ///|
+/// Represents a CSS border with width, style, and color properties.
+///
+/// The CssBorder struct encapsulates the three essential components of a CSS border:
+/// width (in pixels), style (solid, dashed, etc.), and color. This provides a
+/// convenient way to define consistent border styling across elements.
+///
+/// # Examples
+///
+/// Basic border creation:
+/// `CssBorder(2.0, CssBorderStyle::Solid, CssColor::Black)`
+///
+/// Using the constructor with defaults:
+/// `CssBorder::new()` // 1px solid black border
+///
+/// Custom border with specific properties:
+/// `CssBorder::new(width=3.0, style=CssBorderStyle::Dashed, color=CssColor::Hex(255, 0, 0))`
+///
+/// # Structure
+///
+/// - `Float` - Border width in pixels
+/// - `CssBorderStyle` - Border style (solid, dashed, dotted, etc.)
+/// - `CssColor` - Border color in any supported color format
 pub(all) struct CssBorder(Float, CssBorderStyle, CssColor)
 
 ///|
@@ -995,9 +1524,33 @@ pub fn CssBorder::new(
 }
 
 ///|
+/// Represents CSS background-size property values that control how background images are sized.
+///
+/// The background-size property specifies the size of background images,
+/// determining how they scale and fit within their container.
+///
+/// # Examples
+///
+/// ```
+/// inspect(CssBackgroundSize::Cover, content="cover")
+/// inspect(CssBackgroundSize::Contain, content="contain")
+/// inspect(CssBackgroundSize::Wh(100, 200), content="100px 200px")
+/// ```
 pub(all) enum CssBackgroundSize {
+  /// Scale image to cover entire container, may crop parts
+  /// ```mbt
+  /// inspect(CssBackgroundSize::Cover, content="cover")
+  /// ```
   Cover
+  /// Scale image to fit entirely within container, may leave empty space
+  /// ```mbt
+  /// inspect(CssBackgroundSize::Contain, content="contain")
+  /// ```
   Contain
+  /// Set explicit width and height in pixels
+  /// ```mbt
+  /// inspect(CssBackgroundSize::Wh(100, 200), content="100px 200px")
+  /// ```
   Wh(UInt, UInt)
 } derive(Eq)
 
@@ -1012,10 +1565,39 @@ pub impl Show for CssBackgroundSize with output(self, logger) {
 }
 
 ///|
+/// Represents CSS overflow property values that control how content is handled when it overflows its container.
+///
+/// The overflow property specifies what happens when content is too large to fit in its container.
+/// It can be used to add scrollbars or hide overflowing content.
+///
+/// # Examples
+///
+/// ```
+/// inspect(CssOverflow::Visible, content="visible")
+/// inspect(CssOverflow::Hidden, content="hidden")
+/// inspect(CssOverflow::Scroll, content="scroll")
+/// inspect(CssOverflow::Auto, content="auto")
+/// ```
 pub(all) enum CssOverflow {
+  /// Content is not clipped and may overflow the container
+  /// ```mbt
+  /// inspect(CssOverflow::Visible, content="visible")
+  /// ```
   Visible
+  /// Content is clipped and hidden when it overflows
+  /// ```mbt
+  /// inspect(CssOverflow::Hidden, content="hidden")
+  /// ```
   Hidden
+  /// Content is clipped and scrollbars are always shown
+  /// ```mbt
+  /// inspect(CssOverflow::Scroll, content="scroll")
+  /// ```
   Scroll
+  /// Content is clipped and scrollbars appear only when needed
+  /// ```mbt
+  /// inspect(CssOverflow::Auto, content="auto")
+  /// ```
   Auto
 } derive(Eq)
 
@@ -1031,13 +1613,53 @@ pub impl Show for CssOverflow with output(self, logger) {
 }
 
 ///|
+/// Represents CSS transform property values that apply 2D and 3D transformations to elements.
+///
+/// The transform property allows you to rotate, scale, skew, or translate elements,
+/// providing powerful visual effects and animations.
+///
+/// # Examples
+///
+/// ```
+/// inspect(CssTransform::Translate(10, 20), content="translate(10px, 20px)")
+/// inspect(CssTransform::Scale(1.5), content="scale(1.5)")
+/// inspect(CssTransform::Rotate(45), content="rotate(45deg)")
+/// ```
 pub(all) enum CssTransform {
+  /// Move element by x and y pixels
+  /// ```mbt
+  /// inspect(CssTransform::Translate(10, 20), content="translate(10px, 20px)")
+  /// ```
   Translate(Int, Int)
+  /// Move element horizontally by x pixels
+  /// ```mbt
+  /// inspect(CssTransform::TranslateX(10), content="translateX(10px)")
+  /// ```
   TranslateX(Int)
+  /// Move element vertically by y pixels
+  /// ```mbt
+  /// inspect(CssTransform::TranslateY(20), content="translateY(20px)")
+  /// ```
   TranslateY(Int)
+  /// Scale element by the given factor
+  /// ```mbt
+  /// inspect(CssTransform::Scale(1.5), content="scale(1.5)")
+  /// ```
   Scale(Float)
+  /// Rotate element by degrees
+  /// ```mbt
+  /// inspect(CssTransform::Rotate(45), content="rotate(45deg)")
+  /// ```
   Rotate(Int)
+  /// Skew element by x and y degrees
+  /// ```mbt
+  /// inspect(CssTransform::Skew(10, 20), content="skew(10deg, 20deg)")
+  /// ```
   Skew(Int, Int)
+  /// Apply a 2D transformation matrix
+  /// ```mbt
+  /// inspect(CssTransform::Matrix(1.0, 0.0, 0.0, 1.0, 0.0, 0.0), content="matrix(1, 0, 0, 1, 0, 0)")
+  /// ```
   Matrix(Float, Float, Float, Float, Float, Float)
 } derive(Eq)
 
@@ -1056,13 +1678,53 @@ pub impl Show for CssTransform with output(self, logger) {
 }
 
 ///|
+/// Represents CSS timing function values that control the acceleration curve of animations and transitions.
+///
+/// Timing functions define how intermediate values are calculated during animations,
+/// affecting the pacing and feel of visual transitions.
+///
+/// # Examples
+///
+/// ```
+/// inspect(CssTimingFunction::Ease, content="ease")
+/// inspect(CssTimingFunction::Linear, content="linear")
+/// inspect(CssTimingFunction::EaseInOut, content="ease-in-out")
+/// ```
 pub(all) enum CssTimingFunction {
+  /// Default timing function with slow start and end
+  /// ```mbt
+  /// inspect(CssTimingFunction::Ease, content="ease")
+  /// ```
   Ease
+  /// Constant speed throughout the animation
+  /// ```mbt
+  /// inspect(CssTimingFunction::Linear, content="linear")
+  /// ```
   Linear
+  /// Slow start, then accelerates
+  /// ```mbt
+  /// inspect(CssTimingFunction::EaseIn, content="ease-in")
+  /// ```
   EaseIn
+  /// Fast start, then decelerates
+  /// ```mbt
+  /// inspect(CssTimingFunction::EaseOut, content="ease-out")
+  /// ```
   EaseOut
+  /// Slow start and end, fast in the middle
+  /// ```mbt
+  /// inspect(CssTimingFunction::EaseInOut, content="ease-in-out")
+  /// ```
   EaseInOut
+  /// Jump to the start value immediately
+  /// ```mbt
+  /// inspect(CssTimingFunction::StepStart, content="step-start")
+  /// ```
   StepStart
+  /// Hold the start value until the end, then jump to end value
+  /// ```mbt
+  /// inspect(CssTimingFunction::StepEnd, content="step-end")
+  /// ```
   StepEnd
 } derive(Eq)
 
@@ -1081,8 +1743,27 @@ pub impl Show for CssTimingFunction with output(self, logger) {
 }
 
 ///|
+/// Represents CSS text-overflow property values that control how overflowing text is displayed.
+///
+/// The text-overflow property specifies how overflowed content that is not displayed
+/// should be signaled to the user, typically used with white-space: nowrap and overflow: hidden.
+///
+/// # Examples
+///
+/// ```
+/// inspect(CssTextOverflow::Clip, content="clip")
+/// inspect(CssTextOverflow::Ellipsis, content="ellipsis")
+/// ```
 pub(all) enum CssTextOverflow {
+  /// Text is clipped at the content area's limit
+  /// ```mbt
+  /// inspect(CssTextOverflow::Clip, content="clip")
+  /// ```
   Clip
+  /// Text is clipped and an ellipsis (...) is displayed
+  /// ```mbt
+  /// inspect(CssTextOverflow::Ellipsis, content="ellipsis")
+  /// ```
   Ellipsis
 } derive(Eq)
 
@@ -1096,8 +1777,27 @@ pub impl Show for CssTextOverflow with output(self, logger) {
 }
 
 ///|
+/// Represents CSS box-sizing property values that control how element dimensions are calculated.
+///
+/// The box-sizing property defines how the total width and height of an element is calculated,
+/// determining whether padding and border are included in the element's dimensions.
+///
+/// # Examples
+///
+/// ```
+/// inspect(CssBoxSizing::BorderBox, content="border-box")
+/// inspect(CssBoxSizing::ContentBox, content="content-box")
+/// ```
 pub(all) enum CssBoxSizing {
+  /// Width and height include content, padding, and border
+  /// ```mbt
+  /// inspect(CssBoxSizing::BorderBox, content="border-box")
+  /// ```
   BorderBox
+  /// Width and height include only content (default)
+  /// ```mbt
+  /// inspect(CssBoxSizing::ContentBox, content="content-box")
+  /// ```
   ContentBox
 } derive(Eq)
 
@@ -1111,10 +1811,39 @@ pub impl Show for CssBoxSizing with output(self, logger) {
 }
 
 ///|
+/// Represents CSS text-align property values that control horizontal text alignment.
+///
+/// The text-align property specifies the horizontal alignment of text within its container.
+/// It affects how text content is positioned within block-level elements.
+///
+/// # Examples
+///
+/// ```
+/// inspect(CssTextAlign::Left, content="left")
+/// inspect(CssTextAlign::Right, content="right")
+/// inspect(CssTextAlign::Center, content="center")
+/// inspect(CssTextAlign::Justify, content="justify")
+/// ```
 pub(all) enum CssTextAlign {
+  /// Aligns text to the left edge of the container
+  /// ```mbt
+  /// inspect(CssTextAlign::Left, content="left")
+  /// ```
   Left
+  /// Aligns text to the right edge of the container
+  /// ```mbt
+  /// inspect(CssTextAlign::Right, content="right")
+  /// ```
   Right
+  /// Centers text within the container
+  /// ```mbt
+  /// inspect(CssTextAlign::Center, content="center")
+  /// ```
   Center
+  /// Justifies text by adjusting spacing to align with both edges
+  /// ```mbt
+  /// inspect(CssTextAlign::Justify, content="justify")
+  /// ```
   Justify
 } derive(Eq)
 
@@ -1130,11 +1859,43 @@ pub impl Show for CssTextAlign with output(self, logger) {
 }
 
 ///|
+/// Represents CSS font-weight property values that control the thickness of font characters.
+///
+/// The font-weight property specifies how thick or thin characters should be displayed.
+/// It supports both keyword values and numeric weights from 100 to 900.
+///
+/// # Examples
+///
+/// ```
+/// inspect(CssFontWeight::Normal, content="normal")
+/// inspect(CssFontWeight::Bold, content="bold")
+/// inspect(CssFontWeight::Weight(600), content="600")
+/// ```
 pub(all) enum CssFontWeight {
+  /// Normal font weight (equivalent to 400)
+  /// ```mbt
+  /// inspect(CssFontWeight::Normal, content="normal")
+  /// ```
   Normal
+  /// Bold font weight (equivalent to 700)
+  /// ```mbt
+  /// inspect(CssFontWeight::Bold, content="bold")
+  /// ```
   Bold
+  /// Bolder than the parent element's font weight
+  /// ```mbt
+  /// inspect(CssFontWeight::Bolder, content="bolder")
+  /// ```
   Bolder
+  /// Lighter than the parent element's font weight
+  /// ```mbt
+  /// inspect(CssFontWeight::Lighter, content="lighter")
+  /// ```
   Lighter
+  /// Specific numeric weight (100-900)
+  /// ```mbt
+  /// inspect(CssFontWeight::Weight(600), content="600")
+  /// ```
   Weight(Int)
 } derive(Eq)
 
@@ -1151,10 +1912,39 @@ pub impl Show for CssFontWeight with output(self, logger) {
 }
 
 ///|
+/// Represents CSS text-decoration property values that control text decoration lines.
+///
+/// The text-decoration property specifies the decoration added to text,
+/// such as underlines, overlines, or line-through effects.
+///
+/// # Examples
+///
+/// ```
+/// inspect(CssTextDecoration::None, content="none")
+/// inspect(CssTextDecoration::Underline, content="underline")
+/// inspect(CssTextDecoration::Overline, content="overline")
+/// inspect(CssTextDecoration::LineThrough, content="line-through")
+/// ```
 pub(all) enum CssTextDecoration {
+  /// No text decoration
+  /// ```mbt
+  /// inspect(CssTextDecoration::None, content="none")
+  /// ```
   None
+  /// Underline decoration below the text
+  /// ```mbt
+  /// inspect(CssTextDecoration::Underline, content="underline")
+  /// ```
   Underline
+  /// Overline decoration above the text
+  /// ```mbt
+  /// inspect(CssTextDecoration::Overline, content="overline")
+  /// ```
   Overline
+  /// Line-through decoration crossing the text
+  /// ```mbt
+  /// inspect(CssTextDecoration::LineThrough, content="line-through")
+  /// ```
   LineThrough
 } derive(Eq)
 
@@ -1170,42 +1960,199 @@ pub impl Show for CssTextDecoration with output(self, logger) {
 }
 
 ///|
+/// Represents CSS cursor property values that control the mouse cursor appearance.
+///
+/// The cursor property specifies the type of cursor to be displayed when pointing over an element.
+/// It provides visual feedback to users about the type of interaction available.
+///
+/// # Examples
+///
+/// ```
+/// inspect(CssCursor::Auto, content="auto")
+/// inspect(CssCursor::Pointer, content="pointer")
+/// inspect(CssCursor::Text, content="text")
+/// inspect(CssCursor::Move, content="move")
+/// ```
 pub(all) enum CssCursor {
+  /// Browser determines cursor automatically
+  /// ```mbt
+  /// inspect(CssCursor::Auto, content="auto")
+  /// ```
   Auto
+  /// Default cursor (usually an arrow)
+  /// ```mbt
+  /// inspect(CssCursor::Default, content="default")
+  /// ```
   Default
+  /// No cursor is rendered
+  /// ```mbt
+  /// inspect(CssCursor::None, content="none")
+  /// ```
   None
+  /// Hand cursor indicating a clickable element
+  /// ```mbt
+  /// inspect(CssCursor::Pointer, content="pointer")
+  /// ```
   Pointer
+  /// Context menu cursor
+  /// ```mbt
+  /// inspect(CssCursor::ContextMenu, content="context-menu")
+  /// ```
   ContextMenu
+  /// Help cursor indicating help is available
+  /// ```mbt
+  /// inspect(CssCursor::Help, content="help")
+  /// ```
   Help
+  /// Progress cursor indicating background activity
+  /// ```mbt
+  /// inspect(CssCursor::Progress, content="progress")
+  /// ```
   Progress
+  /// Wait cursor indicating the program is busy
+  /// ```mbt
+  /// inspect(CssCursor::Wait, content="wait")
+  /// ```
   Wait
+  /// Cell cursor for table cell selection
+  /// ```mbt
+  /// inspect(CssCursor::Cell, content="cell")
+  /// ```
   Cell
+  /// Crosshair cursor for precise selection
+  /// ```mbt
+  /// inspect(CssCursor::Crosshair, content="crosshair")
+  /// ```
   Crosshair
+  /// Text cursor for text selection
+  /// ```mbt
+  /// inspect(CssCursor::Text, content="text")
+  /// ```
   Text
+  /// Vertical text cursor
+  /// ```mbt
+  /// inspect(CssCursor::VerticalText, content="vertical-text")
+  /// ```
   VerticalText
+  /// Alias cursor indicating a shortcut will be created
+  /// ```mbt
+  /// inspect(CssCursor::Alias, content="alias")
+  /// ```
   Alias
+  /// Copy cursor indicating something will be copied
+  /// ```mbt
+  /// inspect(CssCursor::Copy, content="copy")
+  /// ```
   Copy
+  /// Move cursor for draggable elements
+  /// ```mbt
+  /// inspect(CssCursor::Move, content="move")
+  /// ```
   Move
+  /// No-drop cursor indicating drop is not allowed
+  /// ```mbt
+  /// inspect(CssCursor::NoDrop, content="no-drop")
+  /// ```
   NoDrop
+  /// Not-allowed cursor indicating action is forbidden
+  /// ```mbt
+  /// inspect(CssCursor::NotAllowed, content="not-allowed")
+  /// ```
   NotAllowed
+  /// Grab cursor for grabbable elements
+  /// ```mbt
+  /// inspect(CssCursor::Grab, content="grab")
+  /// ```
   Grab
+  /// Grabbing cursor for elements being dragged
+  /// ```mbt
+  /// inspect(CssCursor::Grabbing, content="grabbing")
+  /// ```
   Grabbing
+  /// All-scroll cursor for scrollable content
+  /// ```mbt
+  /// inspect(CssCursor::AllScroll, content="all-scroll")
+  /// ```
   AllScroll
+  /// Column resize cursor
+  /// ```mbt
+  /// inspect(CssCursor::ColResize, content="col-resize")
+  /// ```
   ColResize
+  /// Row resize cursor
+  /// ```mbt
+  /// inspect(CssCursor::RowResize, content="row-resize")
+  /// ```
   RowResize
+  /// North resize cursor
+  /// ```mbt
+  /// inspect(CssCursor::NResize, content="n-resize")
+  /// ```
   NResize
+  /// East resize cursor
+  /// ```mbt
+  /// inspect(CssCursor::EResize, content="e-resize")
+  /// ```
   EResize
+  /// South resize cursor
+  /// ```mbt
+  /// inspect(CssCursor::SResize, content="s-resize")
+  /// ```
   SResize
+  /// West resize cursor
+  /// ```mbt
+  /// inspect(CssCursor::WResize, content="w-resize")
+  /// ```
   WResize
+  /// Northeast resize cursor
+  /// ```mbt
+  /// inspect(CssCursor::NeResize, content="ne-resize")
+  /// ```
   NeResize
+  /// Northwest resize cursor
+  /// ```mbt
+  /// inspect(CssCursor::NwResize, content="nw-resize")
+  /// ```
   NwResize
+  /// Southeast resize cursor
+  /// ```mbt
+  /// inspect(CssCursor::SeResize, content="se-resize")
+  /// ```
   SeResize
+  /// Southwest resize cursor
+  /// ```mbt
+  /// inspect(CssCursor::SwResize, content="sw-resize")
+  /// ```
   SwResize
+  /// East-west resize cursor
+  /// ```mbt
+  /// inspect(CssCursor::EwResize, content="ew-resize")
+  /// ```
   EwResize
+  /// North-south resize cursor
+  /// ```mbt
+  /// inspect(CssCursor::NsResize, content="ns-resize")
+  /// ```
   NsResize
+  /// Northeast-southwest resize cursor
+  /// ```mbt
+  /// inspect(CssCursor::NeswResize, content="nesw-resize")
+  /// ```
   NeswResize
+  /// Northwest-southeast resize cursor
+  /// ```mbt
+  /// inspect(CssCursor::NwseResize, content="nwse-resize")
+  /// ```
   NwseResize
+  /// Zoom in cursor
+  /// ```mbt
+  /// inspect(CssCursor::ZoomIn, content="zoom-in")
+  /// ```
   ZoomIn
+  /// Zoom out cursor
+  /// ```mbt
+  /// inspect(CssCursor::ZoomOut, content="zoom-out")
+  /// ```
   ZoomOut
 } derive(Eq)
 
@@ -1253,9 +2200,33 @@ pub impl Show for CssCursor with output(self, logger) {
 }
 
 ///|
+/// Represents CSS content-visibility property values that control rendering optimization.
+///
+/// The content-visibility property allows the user agent to skip an element's rendering work
+/// until it is needed, which can significantly improve page load performance.
+///
+/// # Examples
+///
+/// ```
+/// inspect(CssContentVisibility::Visible, content="visible")
+/// inspect(CssContentVisibility::Hidden, content="hidden")
+/// inspect(CssContentVisibility::Auto, content="auto")
+/// ```
 pub(all) enum CssContentVisibility {
+  /// Element's contents are rendered normally
+  /// ```mbt
+  /// inspect(CssContentVisibility::Visible, content="visible")
+  /// ```
   Visible
+  /// Element's contents are skipped and not rendered
+  /// ```mbt
+  /// inspect(CssContentVisibility::Hidden, content="hidden")
+  /// ```
   Hidden
+  /// Browser determines when to render based on visibility
+  /// ```mbt
+  /// inspect(CssContentVisibility::Auto, content="auto")
+  /// ```
   Auto
 } derive(Eq)
 
@@ -1270,21 +2241,91 @@ pub impl Show for CssContentVisibility with output(self, logger) {
 }
 
 ///|
-/// https://developer.mozilla.org/en-US/docs/Web/CSS/filter
+/// Represents CSS filter property values that apply graphical effects to elements.
+///
+/// The filter property applies graphical effects like blur or color shift to an element.
+/// Filters are commonly used to adjust the rendering of images, backgrounds, and borders.
+///
+/// # Examples
+///
+/// ```
+/// inspect(CssFilter::None, content="none")
+/// inspect(CssFilter::Blur(5.0), content="blur(5px)")
+/// inspect(CssFilter::Brightness(1.2), content="brightness(1.2000000476837158)")
+/// inspect(CssFilter::DropShadow(2.0, 2.0, 4.0, CssColor::Black), content="drop-shadow(2px 2px 4px black)")
+/// ```
+///
+/// Reference: https://developer.mozilla.org/en-US/docs/Web/CSS/filter
 pub(all) enum CssFilter {
+  /// No filter effects applied
+  /// ```mbt
+  /// inspect(CssFilter::None, content="none")
+  /// ```
   None
+  /// Applies a blur effect with specified radius in pixels
+  /// ```mbt
+  /// inspect(CssFilter::Blur(5.0), content="blur(5px)")
+  /// ```
   Blur(Float)
+  /// Adjusts brightness (1.0 = normal, >1.0 = brighter, <1.0 = darker)
+  /// ```mbt
+  /// inspect(CssFilter::Brightness(1.2), content="brightness(1.2000000476837158)")
+  /// ```
   Brightness(Float)
+  /// Adjusts contrast (1.0 = normal, >1.0 = more contrast, <1.0 = less contrast)
+  /// ```mbt
+  /// inspect(CssFilter::Contrast(1.5), content="contrast(1.5)")
+  /// ```
   Contrast(Float)
+  /// Converts to grayscale (0.0 = no change, 1.0 = completely grayscale)
+  /// ```mbt
+  /// inspect(CssFilter::Grayscale(0.5), content="grayscale(0.5)")
+  /// ```
   Grayscale(Float)
+  /// Rotates hue by specified degrees
+  /// ```mbt
+  /// inspect(CssFilter::HueRotate(90.0), content="hue-rotate(90deg)")
+  /// ```
   HueRotate(Float)
+  /// Inverts colors (0.0 = no change, 1.0 = completely inverted)
+  /// ```mbt
+  /// inspect(CssFilter::Invert(1.0), content="invert(1)")
+  /// ```
   Invert(Float)
+  /// Adjusts opacity (0.0 = transparent, 1.0 = opaque)
+  /// ```mbt
+  /// inspect(CssFilter::Opacity(0.8), content="opacity(0.800000011920929)")
+  /// ```
   Opacity(Float)
+  /// Adjusts saturation (0.0 = grayscale, 1.0 = normal, >1.0 = more saturated)
+  /// ```mbt
+  /// inspect(CssFilter::Saturate(2.0), content="saturate(2)")
+  /// ```
   Saturate(Float)
+  /// Converts to sepia tone (0.0 = no change, 1.0 = completely sepia)
+  /// ```mbt
+  /// inspect(CssFilter::Sepia(0.7), content="sepia(0.699999988079071)")
+  /// ```
   Sepia(Float)
+  /// Applies a drop shadow with x-offset, y-offset, blur radius, and color
+  /// ```mbt
+  /// inspect(CssFilter::DropShadow(2.0, 2.0, 4.0, CssColor::Black), content="drop-shadow(2px 2px 4px black)")
+  /// ```
   DropShadow(Float, Float, Float, CssColor)
+  /// References an SVG filter by URL
+  /// ```mbt
+  /// inspect(CssFilter::Url("#my-filter"), content="url(#my-filter)")
+  /// ```
   Url(String)
+  /// Reverts to the value established by the user-agent stylesheet
+  /// ```mbt
+  /// inspect(CssFilter::Revert, content="revert")
+  /// ```
   Revert
+  /// Reverts to the value established by a previous cascade layer
+  /// ```mbt
+  /// inspect(CssFilter::RevertLayer, content="revert-layer")
+  /// ```
   RevertLayer
 }
 
@@ -1324,11 +2365,44 @@ pub impl Show for CssFilter with output(self, logger) {
 }
 
 ///|
+/// Represents CSS object-fit property values that control how replaced elements are resized.
+///
+/// The object-fit property sets how the content of a replaced element, such as an img or video,
+/// should be resized to fit its container.
+///
+/// # Examples
+///
+/// ```
+/// inspect(CssObjectFit::Fill, content="fill")
+/// inspect(CssObjectFit::Contain, content="contain")
+/// inspect(CssObjectFit::Cover, content="cover")
+/// inspect(CssObjectFit::ScaleDown, content="scale-down")
+/// ```
 pub(all) enum CssObjectFit {
+  /// Content is resized to fill the element's content box, may be stretched
+  /// ```mbt
+  /// inspect(CssObjectFit::Fill, content="fill")
+  /// ```
   Fill
+  /// Content is scaled to maintain aspect ratio while fitting within the content box
+  /// ```mbt
+  /// inspect(CssObjectFit::Contain, content="contain")
+  /// ```
   Contain
+  /// Content is scaled to maintain aspect ratio while filling the content box
+  /// ```mbt
+  /// inspect(CssObjectFit::Cover, content="cover")
+  /// ```
   Cover
+  /// Content is not resized
+  /// ```mbt
+  /// inspect(CssObjectFit::None, content="none")
+  /// ```
   None
+  /// Content is sized as if none or contain were specified, whichever results in smaller size
+  /// ```mbt
+  /// inspect(CssObjectFit::ScaleDown, content="scale-down")
+  /// ```
   ScaleDown
 } derive(Eq)
 
@@ -1345,9 +2419,33 @@ pub impl Show for CssObjectFit with output(self, logger) {
 }
 
 ///|
+/// Represents CSS overscroll-behavior property values that control scroll chaining behavior.
+///
+/// The overscroll-behavior property sets what a browser does when reaching the boundary
+/// of a scrolling area. It can be used to prevent unwanted scroll chaining.
+///
+/// # Examples
+///
+/// ```
+/// inspect(CssOverscrollBehavior::Auto, content="auto")
+/// inspect(CssOverscrollBehavior::Contain, content="contain")
+/// inspect(CssOverscrollBehavior::None, content="none")
+/// ```
 pub(all) enum CssOverscrollBehavior {
+  /// Default scroll chaining behavior
+  /// ```mbt
+  /// inspect(CssOverscrollBehavior::Auto, content="auto")
+  /// ```
   Auto
+  /// Prevents scroll chaining to neighboring scrolling areas
+  /// ```mbt
+  /// inspect(CssOverscrollBehavior::Contain, content="contain")
+  /// ```
   Contain
+  /// Prevents scroll chaining and default overscroll effects
+  /// ```mbt
+  /// inspect(CssOverscrollBehavior::None, content="none")
+  /// ```
   None
 }
 
@@ -1380,12 +2478,36 @@ pub fn str_spaced(wrap_parens? : Bool = false, s : Array[&Show]) -> String {
 
 ///|
 /// CSS Grid Layout Properties
+/// Represents CSS grid-template-columns property values for defining grid column tracks.
+///
+/// The grid-template-columns property defines the line names and track sizing functions
+/// of the grid columns, establishing the structure of the grid container's column axis.
+///
+/// # Examples
+///
+/// Basic usage with inspect:
+/// `CssGridTemplateColumns::None |> inspect` // Output: "none"
+/// `CssGridTemplateColumns::Auto |> inspect` // Output: "auto"
+/// `CssGridTemplateColumns::Repeat(3, CssSize::Px(100.0)) |> inspect` // Output: "repeat(3, 100px)"
+/// `CssGridTemplateColumns::Fr([1.0, 2.0, 1.0]) |> inspect` // Output: "1fr 2fr 1fr"
 pub(all) enum CssGridTemplateColumns {
+  /// No explicit column tracks (auto-generated as needed)
+  /// Example: `CssGridTemplateColumns::None |> inspect` // Output: "none"
   None
+  /// Columns size automatically based on content
+  /// Example: `CssGridTemplateColumns::Auto |> inspect` // Output: "auto"
   Auto
+  /// Repeats a track pattern the specified number of times
+  /// Example: `CssGridTemplateColumns::Repeat(4, CssSize::Px(200.0)) |> inspect` // Output: "repeat(4, 200px)"
   Repeat(Int, CssSize)
+  /// Fractional units that distribute available space proportionally
+  /// Example: `CssGridTemplateColumns::Fr([1.0, 3.0, 1.0]) |> inspect` // Output: "1fr 3fr 1fr"
   Fr(Array[Float])
+  /// Explicit list of column sizes with mixed units
+  /// Example: `CssGridTemplateColumns::Sizes([CssSize::Px(100.0), CssSize::Fr(1.0), CssSize::Px(150.0)]) |> inspect` // Output: "100px 1fr 150px"
   Sizes(Array[CssSize])
+  /// Raw CSS value for advanced grid patterns
+  /// Example: `CssGridTemplateColumns::Custom("minmax(100px, 1fr) auto minmax(100px, 1fr)") |> inspect` // Output: "minmax(100px, 1fr) auto minmax(100px, 1fr)"
   Custom(String)
 } derive(Eq)
 
@@ -1407,12 +2529,48 @@ pub impl Show for CssGridTemplateColumns with output(self, logger) {
 }
 
 ///|
+/// Represents CSS grid-template-rows property values that define the sizing of grid rows.
+///
+/// The grid-template-rows property defines the line names and track sizing functions
+/// of the grid rows, controlling how rows are sized in a CSS Grid layout.
+///
+/// # Examples
+///
+/// ```
+/// inspect(CssGridTemplateRows::Auto, content="auto")
+/// inspect(CssGridTemplateRows::Repeat(3, CssSize::Px(100)), content="repeat(3, 100px)")
+/// inspect(CssGridTemplateRows::Fr([1.0, 2.0]), content="1fr 2fr")
+/// ```
 pub(all) enum CssGridTemplateRows {
+  /// No explicit grid rows defined
+  /// ```mbt
+  /// inspect(CssGridTemplateRows::None, content="none")
+  /// ```
   None
+  /// Rows size automatically based on content
+  /// ```mbt
+  /// inspect(CssGridTemplateRows::Auto, content="auto")
+  /// ```
   Auto
+  /// Repeat a size pattern for the specified number of times
+  /// ```mbt
+  /// inspect(CssGridTemplateRows::Repeat(3, CssSize::Px(100)), content="repeat(3, 100px)")
+  /// ```
   Repeat(Int, CssSize)
+  /// Define rows using fractional units
+  /// ```mbt
+  /// inspect(CssGridTemplateRows::Fr([1.0, 2.0]), content="1fr 2fr")
+  /// ```
   Fr(Array[Float])
+  /// Define rows using explicit sizes
+  /// ```mbt
+  /// inspect(CssGridTemplateRows::Sizes([CssSize::Px(100), CssSize::Auto]), content="100px auto")
+  /// ```
   Sizes(Array[CssSize])
+  /// Custom grid template rows value
+  /// ```mbt
+  /// inspect(CssGridTemplateRows::Custom("minmax(100px, 1fr)"), content="minmax(100px, 1fr)")
+  /// ```
   Custom(String)
 } derive(Eq)
 
@@ -1434,11 +2592,43 @@ pub impl Show for CssGridTemplateRows with output(self, logger) {
 }
 
 ///|
+/// Represents CSS grid-area property values that define how a grid item is positioned within the grid.
+///
+/// The grid-area property is a shorthand for grid-row-start, grid-column-start,
+/// grid-row-end, and grid-column-end, specifying a grid item's size and location.
+///
+/// # Examples
+///
+/// ```
+/// inspect(CssGridArea::Auto, content="auto")
+/// inspect(CssGridArea::Span(2), content="span 2")
+/// inspect(CssGridArea::Named("header"), content="header")
+/// ```
 pub(all) enum CssGridArea {
+  /// Automatic placement by the grid algorithm
+  /// ```mbt
+  /// inspect(CssGridArea::Auto, content="auto")
+  /// ```
   Auto
+  /// Span across the specified number of grid tracks
+  /// ```mbt
+  /// inspect(CssGridArea::Span(2), content="span 2")
+  /// ```
   Span(Int)
+  /// Start at the specified grid line number
+  /// ```mbt
+  /// inspect(CssGridArea::Line(3), content="3")
+  /// ```
   Line(Int)
+  /// Use a named grid area
+  /// ```mbt
+  /// inspect(CssGridArea::Named("header"), content="header")
+  /// ```
   Named(String)
+  /// Custom grid area value
+  /// ```mbt
+  /// inspect(CssGridArea::Custom("1 / 2 / 3 / 4"), content="1 / 2 / 3 / 4")
+  /// ```
   Custom(String)
 } derive(Eq)
 
@@ -1498,10 +2688,30 @@ pub impl Show for CssAlignItems with output(self, logger) {
 
 ///|
 /// CSS Animation Properties
+/// Represents CSS animation-direction property values that control animation playback direction.
+///
+/// The animation-direction property specifies whether an animation should play forward,
+/// backward, or alternate between forward and backward on each cycle.
+///
+/// # Examples
+///
+/// Basic usage with inspect:
+/// `CssAnimationDirection::Normal |> inspect` // Output: "normal"
+/// `CssAnimationDirection::Reverse |> inspect` // Output: "reverse"
+/// `CssAnimationDirection::Alternate |> inspect` // Output: "alternate"
+/// `CssAnimationDirection::AlternateReverse |> inspect` // Output: "alternate-reverse"
 pub(all) enum CssAnimationDirection {
+  /// Animation plays forward on each cycle (default behavior)
+  /// Example: `CssAnimationDirection::Normal |> inspect` // Output: "normal"
   Normal
+  /// Animation plays backward on each cycle
+  /// Example: `CssAnimationDirection::Reverse |> inspect` // Output: "reverse"
   Reverse
+  /// Animation alternates between forward and backward on each cycle
+  /// Example: `CssAnimationDirection::Alternate |> inspect` // Output: "alternate"
   Alternate
+  /// Animation alternates between backward and forward, starting with backward
+  /// Example: `CssAnimationDirection::AlternateReverse |> inspect` // Output: "alternate-reverse"
   AlternateReverse
 } derive(Eq)
 
@@ -1552,11 +2762,32 @@ pub impl Show for CssAnimationPlayState with output(self, logger) {
 
 ///|
 /// CSS Functions and Advanced Units
+/// Represents CSS mathematical and utility functions for dynamic value calculation.
+///
+/// CSS functions enable dynamic calculations and responsive design by allowing
+/// mathematical operations, comparisons, and variable references in CSS values.
+///
+/// # Examples
+///
+/// Basic usage with inspect:
+/// `CssFunction::Calc("100vw - 40px") |> inspect` // Output: "calc(100vw - 40px)"
+/// `CssFunction::Min([CssSize::Px(300.0), CssSize::Vw(80.0)]) |> inspect` // Output: "min(300px, 80vw)"
+/// `CssFunction::Var("primary-color", None) |> inspect` // Output: "var(--primary-color)"
 pub(all) enum CssFunction {
+  /// Mathematical expressions with +, -, *, / operators
+  /// Example: `CssFunction::Calc("100vh - 60px") |> inspect` // Output: "calc(100vh - 60px)"
   Calc(String)
+  /// Returns the smallest value from the provided list
+  /// Example: `CssFunction::Min([CssSize::Px(200.0), CssSize::Vw(50.0)]) |> inspect` // Output: "min(200px, 50vw)"
   Min(Array[CssSize])
+  /// Returns the largest value from the provided list
+  /// Example: `CssFunction::Max([CssSize::Px(100.0), CssSize::Vh(30.0)]) |> inspect` // Output: "max(100px, 30vh)"
   Max(Array[CssSize])
+  /// Constrains value between minimum and maximum bounds
+  /// Example: `CssFunction::Clamp(CssSize::Px(12.0), CssSize::Vw(4.0), CssSize::Px(24.0)) |> inspect` // Output: "clamp(12px, 4vw, 24px)"
   Clamp(CssSize, CssSize, CssSize)
+  /// References CSS custom properties with optional fallback value
+  /// Example: `CssFunction::Var("theme-color", Some(CssSize::Px(16.0))) |> inspect` // Output: "var(--theme-color, 16px)"
   Var(String, CssSize?)
 } derive(Eq)
 
