@@ -5,8 +5,20 @@ pub(all) enum CssSize {
   Percent(Float)
   Em(Float)
   Rem(Float)
-  Vw(Int)
-  Vh(Int)
+  Vw(Float)
+  Vh(Float)
+  Fr(Float)
+  Ch(Float)
+  Ex(Float)
+  Vmin(Float)
+  Vmax(Float)
+  Dvh(Float)
+  Dvw(Float)
+  Lvh(Float)
+  Lvw(Float)
+  Svh(Float)
+  Svw(Float)
+  Function(CssFunction)
   Custom(String)
 } derive(Eq)
 
@@ -20,6 +32,18 @@ pub impl Show for CssSize with output(self, logger) {
     Rem(value) => "\{value}rem"
     Vw(value) => "\{value}vw"
     Vh(value) => "\{value}vh"
+    Fr(value) => "\{value}fr"
+    Ch(value) => "\{value}ch"
+    Ex(value) => "\{value}ex"
+    Vmin(value) => "\{value}vmin"
+    Vmax(value) => "\{value}vmax"
+    Dvh(value) => "\{value}dvh"
+    Dvw(value) => "\{value}dvw"
+    Lvh(value) => "\{value}lvh"
+    Lvw(value) => "\{value}lvw"
+    Svh(value) => "\{value}svh"
+    Svw(value) => "\{value}svw"
+    Function(func) => func.to_string()
     Custom(value) => value
   }
   logger.write_string(ret)
@@ -147,6 +171,43 @@ pub fn respo_style(
   object_fit? : CssObjectFit,
   overscroll_behavior_x? : CssOverscrollBehavior,
   overscroll_behavior_y? : CssOverscrollBehavior,
+
+  // CSS Grid Layout
+  grid_template_columns? : CssGridTemplateColumns,
+  grid_template_rows? : CssGridTemplateRows,
+  grid_column? : CssGridArea,
+  grid_row? : CssGridArea,
+  grid_area? : String,
+  justify_items? : CssJustifyItems,
+  align_items_grid? : CssAlignItems,
+
+  // CSS Animation
+  animation_direction? : CssAnimationDirection,
+  animation_fill_mode? : CssAnimationFillMode,
+  animation_play_state? : CssAnimationPlayState,
+  animation_name? : String,
+  animation_duration? : CssDuration,
+  animation_timing_function? : CssTimingFunction,
+  animation_delay? : CssDuration,
+  animation_iteration_count? : String,
+
+  // Enhanced Typography
+  font_style? : CssFontStyle,
+  font_variant? : CssFontVariant,
+  text_transform_enhanced? : CssTextTransform,
+
+  // Modern CSS Features
+  aspect_ratio? : CssAspectRatio,
+  scroll_behavior? : CssScrollBehavior,
+  resize? : CssResize,
+  container_type? : CssContainerType,
+  container_name? : String,
+
+  // CSS Functions and Extended Sizes
+  width_extended? : CssSize,
+  height_extended? : CssSize,
+  margin_extended? : CssSize,
+  padding_extended? : CssSize,
 ) -> RespoStyle {
   let style : Array[(String, String)] = []
   match color {
@@ -420,6 +481,124 @@ pub fn respo_style(
     Some(value) => style.push(("overscroll-behavior-y", value.to_string()))
     None => ()
   }
+
+  // CSS Grid Layout
+  match grid_template_columns {
+    Some(value) => style.push(("grid-template-columns", value.to_string()))
+    None => ()
+  }
+  match grid_template_rows {
+    Some(value) => style.push(("grid-template-rows", value.to_string()))
+    None => ()
+  }
+  match grid_column {
+    Some(value) => style.push(("grid-column", value.to_string()))
+    None => ()
+  }
+  match grid_row {
+    Some(value) => style.push(("grid-row", value.to_string()))
+    None => ()
+  }
+  match grid_area {
+    Some(value) => style.push(("grid-area", value))
+    None => ()
+  }
+  match justify_items {
+    Some(value) => style.push(("justify-items", value.to_string()))
+    None => ()
+  }
+  match align_items_grid {
+    Some(value) => style.push(("align-items", value.to_string()))
+    None => ()
+  }
+
+  // CSS Animation
+  match animation_direction {
+    Some(value) => style.push(("animation-direction", value.to_string()))
+    None => ()
+  }
+  match animation_fill_mode {
+    Some(value) => style.push(("animation-fill-mode", value.to_string()))
+    None => ()
+  }
+  match animation_play_state {
+    Some(value) => style.push(("animation-play-state", value.to_string()))
+    None => ()
+  }
+  match animation_name {
+    Some(value) => style.push(("animation-name", value))
+    None => ()
+  }
+  match animation_duration {
+    Some(value) => style.push(("animation-duration", value.to_string()))
+    None => ()
+  }
+  match animation_timing_function {
+    Some(value) => style.push(("animation-timing-function", value.to_string()))
+    None => ()
+  }
+  match animation_delay {
+    Some(value) => style.push(("animation-delay", value.to_string()))
+    None => ()
+  }
+  match animation_iteration_count {
+    Some(value) => style.push(("animation-iteration-count", value))
+    None => ()
+  }
+
+  // Enhanced Typography
+  match font_style {
+    Some(value) => style.push(("font-style", value.to_string()))
+    None => ()
+  }
+  match font_variant {
+    Some(value) => style.push(("font-variant", value.to_string()))
+    None => ()
+  }
+  match text_transform_enhanced {
+    Some(value) => style.push(("text-transform", value.to_string()))
+    None => ()
+  }
+
+  // Modern CSS Features
+  match aspect_ratio {
+    Some(value) => style.push(("aspect-ratio", value.to_string()))
+    None => ()
+  }
+  match scroll_behavior {
+    Some(value) => style.push(("scroll-behavior", value.to_string()))
+    None => ()
+  }
+  match resize {
+    Some(value) => style.push(("resize", value.to_string()))
+    None => ()
+  }
+  match container_type {
+    Some(value) => style.push(("container-type", value.to_string()))
+    None => ()
+  }
+  match container_name {
+    Some(value) => style.push(("container-name", value))
+    None => ()
+  }
+
+  // CSS Functions and Extended Sizes
+  match width_extended {
+    Some(value) => style.push(("width", value.to_string()))
+    None => ()
+  }
+  match height_extended {
+    Some(value) => style.push(("height", value.to_string()))
+    None => ()
+  }
+  match margin_extended {
+    Some(value) => style.push(("margin", value.to_string()))
+    None => ()
+  }
+  match padding_extended {
+    Some(value) => style.push(("padding", value.to_string()))
+    None => ()
+  }
   RespoStyle(style)
 }
 
@@ -448,8 +627,8 @@ pub(all) enum CssDuration {
 ///|
 pub impl Show for CssDuration with output(self, logger) {
   let ret = match self {
-    Ms(value) => "\{value}ms"
-    S(value) => "\{value}s"
+    Ms(value) => value.to_string() + "ms"
+    S(value) => value.to_string() + "s"
   }
   logger.write_string(ret)
 }
@@ -519,15 +698,64 @@ pub(all) enum CssColor {
 } derive(Eq)
 
 ///|
+/// Convert a UInt to a 2-digit hexadecimal string
+fn uint_to_hex(value : UInt) -> String {
+  let hex_digits = [
+    "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f",
+  ]
+  let high = (value / 16).to_int()
+  let low = (value % 16).to_int()
+  hex_digits[high] + hex_digits[low]
+}
+
+///|
 pub impl Show for CssColor with output(self, logger) {
   let ret = match self {
-    Hsla(h, s, l, a) => "hsla(\{h}, \{s}%, \{l}%, \{a})"
-    Hsl(h, s, l) => "hsl(\{h}, \{s}%, \{l}%)"
-    Hsluva(h, s, l, a) => "hsluva(\{h}, \{s}%, \{l}%, \{a})"
-    Hsluv(h, s, l) => "hsluv(\{h}, \{s}%, \{l}%)"
-    Rgba(r, g, b, a) => "rgba(\{r}, \{g}, \{b}, \{a})"
-    Rgb(r, g, b) => "rgb(\{r}, \{g}, \{b})"
-    Hex(r, g, b) => "#\{r}\{g}\{b}"
+    Hsla(h, s, l, a) => {
+      let h_str = h.to_string()
+      let s_str = s.to_string()
+      let l_str = l.to_string()
+      let a_str = a.to_string()
+      "hsla(" + h_str + ", " + s_str + "%, " + l_str + "%, " + a_str + ")"
+    }
+    Hsl(h, s, l) => {
+      let h_str = h.to_string()
+      let s_str = s.to_string()
+      let l_str = l.to_string()
+      "hsl(" + h_str + ", " + s_str + "%, " + l_str + "%)"
+    }
+    Hsluva(h, s, l, a) => {
+      let h_str = h.to_string()
+      let s_str = s.to_string()
+      let l_str = l.to_string()
+      let a_str = a.to_string()
+      "hsluva(" + h_str + ", " + s_str + "%, " + l_str + "%, " + a_str + ")"
+    }
+    Hsluv(h, s, l) => {
+      let h_str = h.to_string()
+      let s_str = s.to_string()
+      let l_str = l.to_string()
+      "hsluv(" + h_str + ", " + s_str + "%, " + l_str + "%)"
+    }
+    Rgba(r, g, b, a) => {
+      let r_str = r.to_string()
+      let g_str = g.to_string()
+      let b_str = b.to_string()
+      let a_str = a.to_string()
+      "rgba(" + r_str + ", " + g_str + ", " + b_str + ", " + a_str + ")"
+    }
+    Rgb(r, g, b) => {
+      let r_str = r.to_string()
+      let g_str = g.to_string()
+      let b_str = b.to_string()
+      "rgb(" + r_str + ", " + g_str + ", " + b_str + ")"
+    }
+    Hex(r, g, b) => {
+      let r_hex = uint_to_hex(r)
+      let g_hex = uint_to_hex(g)
+      let b_hex = uint_to_hex(b)
+      "#" + r_hex + g_hex + b_hex
+    }
     Red => "red"
     Green => "green"
     Blue => "blue"
@@ -556,9 +784,9 @@ pub(all) enum CssLineHeight {
 ///|
 pub impl Show for CssLineHeight with output(self, logger) {
   let ret = match self {
-    Em(value) => "\{value}em"
-    Px(value) => "\{value}px"
-    Percent(value) => "\{value}%"
+    Em(value) => value.to_string() + "em"
+    Px(value) => value.to_string() + "px"
+    Percent(value) => value.to_string() + "%"
     Normal => "normal"
   }
   logger.write_string(ret)
@@ -778,7 +1006,7 @@ pub impl Show for CssBackgroundSize with output(self, logger) {
   let ret = match self {
     Cover => "cover"
     Contain => "contain"
-    Wh(w, h) => "\{w}px \{h}px"
+    Wh(w, h) => w.to_string() + "px " + h.to_string() + "px"
   }
   logger.write_string(ret)
 }
@@ -917,7 +1145,7 @@ pub impl Show for CssFontWeight with output(self, logger) {
     Bold => "bold"
     Bolder => "bolder"
     Lighter => "lighter"
-    Weight(value) => "\{value}"
+    Weight(value) => value.to_string()
   }
   logger.write_string(ret)
 }
@@ -1064,18 +1292,31 @@ pub(all) enum CssFilter {
 pub impl Show for CssFilter with output(self, logger) {
   let ret = match self {
     None => "none"
-    Blur(value) => "blur(\{value}px)"
-    Brightness(value) => "brightness(\{value})"
-    Contrast(value) => "contrast(\{value})"
-    Grayscale(value) => "grayscale(\{value})"
-    HueRotate(value) => "hue-rotate(\{value}deg)"
-    Invert(value) => "invert(\{value})"
-    Opacity(value) => "opacity(\{value})"
-    Saturate(value) => "saturate(\{value})"
-    Sepia(value) => "sepia(\{value})"
-    DropShadow(x, y, blur, color) =>
-      "drop-shadow(\{x}px \{y}px \{blur}px \{color})"
-    Url(value) => "url(\{value})"
+    Blur(value) => "blur(" + value.to_string() + "px)"
+    Brightness(value) => "brightness(" + value.to_string() + ")"
+    Contrast(value) => "contrast(" + value.to_string() + ")"
+    Grayscale(value) => "grayscale(" + value.to_string() + ")"
+    HueRotate(value) => "hue-rotate(" + value.to_string() + "deg)"
+    Invert(value) => "invert(" + value.to_string() + ")"
+    Opacity(value) => "opacity(" + value.to_string() + ")"
+    Saturate(value) => "saturate(" + value.to_string() + ")"
+    Sepia(value) => "sepia(" + value.to_string() + ")"
+    DropShadow(x, y, blur, color) => {
+      let x_str = x.to_string()
+      let y_str = y.to_string()
+      let blur_str = blur.to_string()
+      let color_str = color.to_string()
+      "drop-shadow(" +
+      x_str +
+      "px " +
+      y_str +
+      "px " +
+      blur_str +
+      "px " +
+      color_str +
+      ")"
+    }
+    Url(value) => "url(" + value + ")"
     Revert => "revert"
     RevertLayer => "revert-layer"
   }
@@ -1135,4 +1376,384 @@ pub fn str_spaced(wrap_parens? : Bool = false, s : Array[&Show]) -> String {
     ret = "(" + ret + ")"
   }
   ret
+}
+
+///|
+/// CSS Grid Layout Properties
+pub(all) enum CssGridTemplateColumns {
+  None
+  Auto
+  Repeat(Int, CssSize)
+  Fr(Array[Float])
+  Sizes(Array[CssSize])
+  Custom(String)
+} derive(Eq)
+
+///|
+pub impl Show for CssGridTemplateColumns with output(self, logger) {
+  let ret = match self {
+    None => "none"
+    Auto => "auto"
+    Repeat(count, size) => {
+      let count_str = count.to_string()
+      let size_str = size.to_string()
+      "repeat(" + count_str + ", " + size_str + ")"
+    }
+    Fr(values) => values.map(fn(v) { v.to_string() + "fr" }).join(" ")
+    Sizes(sizes) => sizes.map(fn(s) { s.to_string() }).join(" ")
+    Custom(value) => value
+  }
+  logger.write_string(ret)
+}
+
+///|
+pub(all) enum CssGridTemplateRows {
+  None
+  Auto
+  Repeat(Int, CssSize)
+  Fr(Array[Float])
+  Sizes(Array[CssSize])
+  Custom(String)
+} derive(Eq)
+
+///|
+pub impl Show for CssGridTemplateRows with output(self, logger) {
+  let ret = match self {
+    None => "none"
+    Auto => "auto"
+    Repeat(count, size) => {
+      let count_str = count.to_string()
+      let size_str = size.to_string()
+      "repeat(" + count_str + ", " + size_str + ")"
+    }
+    Fr(values) => values.map(fn(v) { v.to_string() + "fr" }).join(" ")
+    Sizes(sizes) => sizes.map(fn(s) { s.to_string() }).join(" ")
+    Custom(value) => value
+  }
+  logger.write_string(ret)
+}
+
+///|
+pub(all) enum CssGridArea {
+  Auto
+  Span(Int)
+  Line(Int)
+  Named(String)
+  Custom(String)
+} derive(Eq)
+
+///|
+pub impl Show for CssGridArea with output(self, logger) {
+  let ret = match self {
+    Auto => "auto"
+    Span(count) => "span " + count.to_string()
+    Line(line) => line.to_string()
+    Named(name) => name
+    Custom(value) => value
+  }
+  logger.write_string(ret)
+}
+
+///|
+pub(all) enum CssJustifyItems {
+  Start
+  End
+  Center
+  Stretch
+  Baseline
+} derive(Eq)
+
+///|
+pub impl Show for CssJustifyItems with output(self, logger) {
+  let ret = match self {
+    Start => "start"
+    End => "end"
+    Center => "center"
+    Stretch => "stretch"
+    Baseline => "baseline"
+  }
+  logger.write_string(ret)
+}
+
+///|
+pub(all) enum CssAlignItems {
+  Start
+  End
+  Center
+  Stretch
+  Baseline
+} derive(Eq)
+
+///|
+pub impl Show for CssAlignItems with output(self, logger) {
+  let ret = match self {
+    Start => "start"
+    End => "end"
+    Center => "center"
+    Stretch => "stretch"
+    Baseline => "baseline"
+  }
+  logger.write_string(ret)
+}
+
+///|
+/// CSS Animation Properties
+pub(all) enum CssAnimationDirection {
+  Normal
+  Reverse
+  Alternate
+  AlternateReverse
+} derive(Eq)
+
+///|
+pub impl Show for CssAnimationDirection with output(self, logger) {
+  let ret = match self {
+    Normal => "normal"
+    Reverse => "reverse"
+    Alternate => "alternate"
+    AlternateReverse => "alternate-reverse"
+  }
+  logger.write_string(ret)
+}
+
+///|
+pub(all) enum CssAnimationFillMode {
+  None
+  Forwards
+  Backwards
+  Both
+} derive(Eq)
+
+///|
+pub impl Show for CssAnimationFillMode with output(self, logger) {
+  let ret = match self {
+    None => "none"
+    Forwards => "forwards"
+    Backwards => "backwards"
+    Both => "both"
+  }
+  logger.write_string(ret)
+}
+
+///|
+pub(all) enum CssAnimationPlayState {
+  Running
+  Paused
+} derive(Eq)
+
+///|
+pub impl Show for CssAnimationPlayState with output(self, logger) {
+  let ret = match self {
+    Running => "running"
+    Paused => "paused"
+  }
+  logger.write_string(ret)
+}
+
+///|
+/// CSS Functions and Advanced Units
+pub(all) enum CssFunction {
+  Calc(String)
+  Min(Array[CssSize])
+  Max(Array[CssSize])
+  Clamp(CssSize, CssSize, CssSize)
+  Var(String, CssSize?)
+} derive(Eq)
+
+///|
+pub impl Show for CssFunction with output(self, logger) {
+  let ret = match self {
+    Calc(expr) => "calc(" + expr + ")"
+    Min(values) => {
+      let values_str = values.map(fn(v) { v.to_string() }).join(", ")
+      "min(" + values_str + ")"
+    }
+    Max(values) => {
+      let values_str = values.map(fn(v) { v.to_string() }).join(", ")
+      "max(" + values_str + ")"
+    }
+    Clamp(min, preferred, max) => {
+      let min_str = min.to_string()
+      let preferred_str = preferred.to_string()
+      let max_str = max.to_string()
+      "clamp(" + min_str + ", " + preferred_str + ", " + max_str + ")"
+    }
+    Var(name, fallback) =>
+      match fallback {
+        Some(fb) => {
+          let fb_str = fb.to_string()
+          "var(--" + name + ", " + fb_str + ")"
+        }
+        None => "var(--" + name + ")"
+      }
+  }
+  logger.write_string(ret)
+}
+
+///|
+/// CSS Typography Enhancements
+pub(all) enum CssFontStyle {
+  Normal
+  Italic
+  Oblique(Float?)
+} derive(Eq)
+
+///|
+pub impl Show for CssFontStyle with output(self, logger) {
+  let ret = match self {
+    Normal => "normal"
+    Italic => "italic"
+    Oblique(angle) =>
+      match angle {
+        Some(a) => "oblique \{a}deg"
+        None => "oblique"
+      }
+  }
+  logger.write_string(ret)
+}
+
+///|
+pub(all) enum CssFontVariant {
+  Normal
+  SmallCaps
+  AllSmallCaps
+  PetiteCaps
+  AllPetiteCaps
+  Unicase
+  TitlingCaps
+} derive(Eq)
+
+///|
+pub impl Show for CssFontVariant with output(self, logger) {
+  let ret = match self {
+    Normal => "normal"
+    SmallCaps => "small-caps"
+    AllSmallCaps => "all-small-caps"
+    PetiteCaps => "petite-caps"
+    AllPetiteCaps => "all-petite-caps"
+    Unicase => "unicase"
+    TitlingCaps => "titling-caps"
+  }
+  logger.write_string(ret)
+}
+
+///|
+pub(all) enum CssTextTransform {
+  None
+  Capitalize
+  Uppercase
+  Lowercase
+  FullWidth
+  FullSizeKana
+} derive(Eq)
+
+///|
+pub impl Show for CssTextTransform with output(self, logger) {
+  let ret = match self {
+    None => "none"
+    Capitalize => "capitalize"
+    Uppercase => "uppercase"
+    Lowercase => "lowercase"
+    FullWidth => "full-width"
+    FullSizeKana => "full-size-kana"
+  }
+  logger.write_string(ret)
+}
+
+///|
+/// CSS Container Query Properties
+pub(all) enum CssContainerType {
+  Normal
+  Size
+  InlineSize
+  BlockSize
+} derive(Eq)
+
+///|
+pub impl Show for CssContainerType with output(self, logger) {
+  let ret = match self {
+    Normal => "normal"
+    Size => "size"
+    InlineSize => "inline-size"
+    BlockSize => "block-size"
+  }
+  logger.write_string(ret)
+}
+
+///|
+/// CSS Logical Properties
+pub(all) enum CssLogicalProperty {
+  InlineStart
+  InlineEnd
+  BlockStart
+  BlockEnd
+} derive(Eq)
+
+///|
+pub impl Show for CssLogicalProperty with output(self, logger) {
+  let ret = match self {
+    InlineStart => "inline-start"
+    InlineEnd => "inline-end"
+    BlockStart => "block-start"
+    BlockEnd => "block-end"
+  }
+  logger.write_string(ret)
+}
+
+///|
+/// CSS Aspect Ratio
+pub(all) enum CssAspectRatio {
+  Auto
+  Ratio(Float, Float)
+  Value(Float)
+} derive(Eq)
+
+///|
+pub impl Show for CssAspectRatio with output(self, logger) {
+  let ret = match self {
+    CssAspectRatio::Auto => "auto"
+    Ratio(width, height) => "\{width} / \{height}"
+    Value(ratio) => "\{ratio}"
+  }
+  logger.write_string(ret)
+}
+
+///|
+/// CSS Scroll Behavior
+pub(all) enum CssScrollBehavior {
+  Auto
+  Smooth
+} derive(Eq)
+
+///|
+pub impl Show for CssScrollBehavior with output(self, logger) {
+  let ret = match self {
+    CssScrollBehavior::Auto => "auto"
+    Smooth => "smooth"
+  }
+  logger.write_string(ret)
+}
+
+///|
+/// CSS Resize Property
+pub(all) enum CssResize {
+  None
+  Both
+  Horizontal
+  Vertical
+  Block
+  Inline
+} derive(Eq)
+
+///|
+pub impl Show for CssResize with output(self, logger) {
+  let ret = match self {
+    CssResize::None => "none"
+    CssResize::Both => "both"
+    Horizontal => "horizontal"
+    Vertical => "vertical"
+    Block => "block"
+    Inline => "inline"
+  }
+  logger.write_string(ret)
 }
