@@ -2,8 +2,8 @@
   "name": "tiye/respo_css",
   "version": "0.1.0",
   "readme": "README.mbt.md",
-  "repository": "",
+  "repository": "git@github.com:Respo/respo_css.mbt.git",
   "license": "Apache-2.0",
   "keywords": ["respo", "CSS"],
-  "description": "CSS structs for Respo library"
+  "description": "Type-safe CSS styling library for Respo framework with comprehensive property definitions, enumeration values, and functional style composition tools. Provides complete CSS support including layout, typography, colors, transforms, and grid systems with MoonBit type safety."
 }
