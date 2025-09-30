@@ -852,100 +852,59 @@ pub impl Show for CssPosition with output(self, logger) {
 /// inspect(CssColor::Blue, content="blue")
 /// ```
 pub(all) enum CssColor {
-  /// HSL color with alpha transparency (hue 0-360, saturation/lightness 0-100, alpha 0.0-1.0)
-  /// ```mbt
-  /// inspect(CssColor::Hsla(120, 100, 50, 0.8), content="hsla(120, 100%, 50%, 0.800000011920929)")
-  /// ```
+  /// hsla(h, s%, l%, a) — supported by Chrome
   Hsla(UInt, UInt, UInt, Float)
-  /// HSL color space (hue 0-360, saturation/lightness 0-100)
-  /// ```mbt
-  /// inspect(CssColor::Hsl(0, 100, 50), content="hsl(0, 100%, 50%)")
-  /// ```
+  /// hsl(h, s%, l%) — supported by Chrome
   Hsl(UInt, UInt, UInt)
-  /// HSLUV color with alpha transparency - perceptually uniform color space
-  /// ```mbt
-  /// inspect(CssColor::Hsluva(180, 80, 60, 0.9), content="hsluva(180, 80%, 60%, 0.8999999761581421)")
-  /// ```
+  /// hsluv(h, s%, l%, a) — non-standard, not supported by browsers
   Hsluva(UInt, UInt, UInt, Float)
-  /// HSLUV color space - perceptually uniform alternative to HSL
-  /// ```mbt
-  /// inspect(CssColor::Hsluv(270, 90, 70), content="hsluv(270, 90%, 70%)")
-  /// ```
+  /// hsluv(h, s%, l%) — non-standard, not supported by browsers
   Hsluv(UInt, UInt, UInt)
-  /// RGB color with alpha transparency (red/green/blue 0-255, alpha 0.0-1.0)
-  /// ```mbt
-  /// inspect(CssColor::Rgba(255, 128, 0, 0.7), content="rgba(255, 128, 0, 0.699999988079071)")
-  /// ```
+  /// rgba(r, g, b, a) — supported by Chrome
   Rgba(UInt, UInt, UInt, Float)
-  /// RGB color space (red/green/blue values 0-255)
-  /// ```mbt
-  /// inspect(CssColor::Rgb(255, 255, 0), content="rgb(255, 255, 0)")
-  /// ```
+  /// rgb(r, g, b) — supported by Chrome
   Rgb(UInt, UInt, UInt)
-  /// Hexadecimal color notation (red/green/blue values 0-255)
-  /// ```mbt
-  /// inspect(CssColor::Hex(255, 0, 255), content="#ff00ff")
-  /// ```
+  /// #rrggbb — supported by Chrome
   Hex(UInt, UInt, UInt)
-  /// Named color: red
-  /// ```mbt
-  /// inspect(CssColor::Red, content="red")
-  /// ```
+  /// lch(L C H) — supported by Chrome
+  Lch(Float, Float, Float)
+  /// lch(L C H / A) — supported by Chrome
+  Lcha(Float, Float, Float, Float)
+  /// lab(L a b) — supported by Chrome
+  Lab(Float, Float, Float)
+  /// lab(L a b / A) — supported by Chrome
+  Laba(Float, Float, Float, Float)
+  /// oklch(L C H) — supported by Chrome
+  Oklch(Float, Float, Float)
+  /// oklch(L C H / A) — supported by Chrome
+  Oklcha(Float, Float, Float, Float)
+  /// oklab(L a b) — supported by Chrome
+  Oklab(Float, Float, Float)
+  /// oklab(L a b / A) — supported by Chrome
+  Oklaba(Float, Float, Float, Float)
+  /// hsl(0, 100%, 50%)
   Red
-  /// Named color: green
-  /// ```mbt
-  /// inspect(CssColor::Green, content="green")
-  /// ```
+  /// hsl(120, 100%, 25%)
   Green
-  /// Named color: blue
-  /// ```mbt
-  /// inspect(CssColor::Blue, content="blue")
-  /// ```
+  /// hsl(240, 100%, 50%)
   Blue
-  /// Named color: white
-  /// ```mbt
-  /// inspect(CssColor::White, content="white")
-  /// ```
+  /// hsl(0, 0%, 100%)
   White
-  /// Named color: black
-  /// ```mbt
-  /// inspect(CssColor::Black, content="black")
-  /// ```
+  /// hsl(0, 0%, 0%)
   Black
-  /// Named color: gray
-  /// ```mbt
-  /// inspect(CssColor::Gray, content="gray")
-  /// ```
+  /// hsl(0, 0%, 50%)
   Gray
-  /// Named color: yellow
-  /// ```mbt
-  /// inspect(CssColor::Yellow, content="yellow")
-  /// ```
+  /// hsl(60, 100%, 50%)
   Yellow
-  /// Named color: purple
-  /// ```mbt
-  /// inspect(CssColor::Purple, content="purple")
-  /// ```
+  /// hsl(300, 100%, 25%)
   Purple
-  /// Named color: cyan
-  /// ```mbt
-  /// inspect(CssColor::Cyan, content="cyan")
-  /// ```
+  /// hsl(180, 100%, 50%)
   Cyan
-  /// Named color: orange
-  /// ```mbt
-  /// inspect(CssColor::Orange, content="orange")
-  /// ```
+  /// hsl(39, 100%, 50%)
   Orange
-  /// Named color: pink
-  /// ```mbt
-  /// inspect(CssColor::Pink, content="pink")
-  /// ```
+  /// hsl(350, 100%, 88%)
   Pink
-  /// Custom CSS color value as raw string
-  /// ```mbt
-  /// inspect(CssColor::RawString("rebeccapurple"), content="rebeccapurple")
-  /// ```
+  /// Example raw CSS color: hsl(270, 50%, 40%) (rebeccapurple)
   RawString(String)
   /// Fully transparent color
   /// ```mbt
@@ -1012,6 +971,58 @@ pub impl Show for CssColor with output(self, logger) {
       let g_hex = uint_to_hex(g)
       let b_hex = uint_to_hex(b)
       "#" + r_hex + g_hex + b_hex
+    }
+    Lcha(l, c, h, a) => {
+      let l_str = l.to_string()
+      let c_str = c.to_string()
+      let h_str = h.to_string()
+      let a_str = a.to_string()
+      "lch(" + l_str + " " + c_str + " " + h_str + " / " + a_str + ")"
+    }
+    Lch(l, c, h) => {
+      let l_str = l.to_string()
+      let c_str = c.to_string()
+      let h_str = h.to_string()
+      "lch(" + l_str + " " + c_str + " " + h_str + ")"
+    }
+    Laba(l, a1, b1, alpha) => {
+      let l_str = l.to_string()
+      let a_str = a1.to_string()
+      let b_str = b1.to_string()
+      let alpha_str = alpha.to_string()
+      "lab(" + l_str + " " + a_str + " " + b_str + " / " + alpha_str + ")"
+    }
+    Lab(l, a1, b1) => {
+      let l_str = l.to_string()
+      let a_str = a1.to_string()
+      let b_str = b1.to_string()
+      "lab(" + l_str + " " + a_str + " " + b_str + ")"
+    }
+    Oklcha(l, c, h, a) => {
+      let l_str = l.to_string()
+      let c_str = c.to_string()
+      let h_str = h.to_string()
+      let a_str = a.to_string()
+      "oklch(" + l_str + " " + c_str + " " + h_str + " / " + a_str + ")"
+    }
+    Oklch(l, c, h) => {
+      let l_str = l.to_string()
+      let c_str = c.to_string()
+      let h_str = h.to_string()
+      "oklch(" + l_str + " " + c_str + " " + h_str + ")"
+    }
+    Oklaba(l, a1, b1, alpha) => {
+      let l_str = l.to_string()
+      let a_str = a1.to_string()
+      let b_str = b1.to_string()
+      let alpha_str = alpha.to_string()
+      "oklab(" + l_str + " " + a_str + " " + b_str + " / " + alpha_str + ")"
+    }
+    Oklab(l, a1, b1) => {
+      let l_str = l.to_string()
+      let a_str = a1.to_string()
+      let b_str = b1.to_string()
+      "oklab(" + l_str + " " + a_str + " " + b_str + ")"
     }
     Red => "red"
     Green => "green"
