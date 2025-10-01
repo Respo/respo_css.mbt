@@ -30,14 +30,17 @@ moon add tiye/respo_css
 
 ```moonbit
 // Create basic styles
+///|
 let style : RespoStyle = respo_style(
   color=CssColor::Red,
   font_size=16,
   margin=CssSize::Px(10.0),
-  display=CssDisplay::Flex
+  display=CssDisplay::Flex,
 )
 
 // Convert to CSS string
+
+///|
 let _css_string : String = style.to_string()
 // Output: "color:red; font-size:16px; margin:10px; display:flex; "
 ```
@@ -46,13 +49,23 @@ let _css_string : String = style.to_string()
 
 ```moonbit
 // Create multiple styles
+///|
 let base_style : RespoStyle = respo_style(color=CssColor::Blue, font_size=14)
-let layout_style : RespoStyle = respo_style(display=CssDisplay::Grid, gap=CssSize::Px(20.0))
+
+///|
+let layout_style : RespoStyle = respo_style(
+  display=CssDisplay::Grid,
+  gap=CssSize::Px(20.0),
+)
 
 // Merge styles
+
+///|
 let combined : RespoStyle = base_style.merge(layout_style)
 
 // Add custom properties
+
+///|
 let _extended : RespoStyle = combined.add("custom-property", "custom-value")
 ```
 
