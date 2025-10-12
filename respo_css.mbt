@@ -800,7 +800,7 @@ pub(all) enum CssColor {
   Gray
   /// hsl(60, 100%, 50%)
   Yellow
-  /// hsl(300, 100%, 25%)
+  /// hsl(300, 100%, 50%)
   Purple
   /// hsl(180, 100%, 50%)
   Cyan
