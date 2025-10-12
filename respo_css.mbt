@@ -788,7 +788,7 @@ pub(all) enum CssColor {
   Oklaba(Float, Float, Float, Float)
   /// hsl(0, 100%, 50%)
   Red
-  /// hsl(120, 100%, 25%)
+  /// hsl(120, 100%, 50%)
   Green
   /// hsl(240, 100%, 50%)
   Blue
