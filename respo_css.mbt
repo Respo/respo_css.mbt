@@ -340,394 +340,298 @@ pub fn respo_style(
   padding_extended? : CssSize,
 ) -> RespoStyle {
   let style : Array[(String, String)] = []
-  match color {
-    Some(value) => style.push(("color", value.to_string()))
-    None => ()
-  }
-  match background_color {
-    Some(value) => style.push(("background-color", value.to_string()))
-    None => ()
-  }
-  match font_size {
-    Some(value) => style.push(("font-size", value.to_string() + "px"))
-    None => ()
-  }
-  match font_family {
-    Some(value) => style.push(("font-family", value))
-    None => ()
-  }
-  match font_weight {
-    Some(value) => style.push(("font-weight", value))
-    None => ()
-  }
-  match text_align {
-    Some(value) => style.push(("text-align", value.to_string()))
-    None => ()
-  }
-  match display {
-    Some(value) => style.push(("display", value.to_string()))
-    None => ()
-  }
-  match margin {
-    Some(value) => style.push(("margin", value.to_string()))
-    None => ()
-  }
-  match padding {
-    Some(value) => style.push(("padding", value.to_string()))
-    None => ()
-  }
-  match border {
-    Some(value) => style.push(("border", value.to_string()))
-    None => ()
-  }
-  match width {
-    Some(value) => style.push(("width", value.to_string()))
-    None => ()
-  }
-  match height {
-    Some(value) => style.push(("height", value.to_string()))
-    None => ()
-  }
-  match position {
-    Some(value) => style.push(("position", value.to_string()))
-    None => ()
-  }
-  match top {
-    Some(value) => style.push(("top", value.to_string()))
-    None => ()
-  }
-  match right {
-    Some(value) => style.push(("right", value.to_string()))
-    None => ()
-  }
-  match bottom {
-    Some(value) => style.push(("bottom", value.to_string()))
-    None => ()
-  }
-  match left {
-    Some(value) => style.push(("left", value.to_string()))
-    None => ()
-  }
-  match float {
-    Some(value) => style.push(("float", value))
-    None => ()
-  }
-  match clear {
-    Some(value) => style.push(("clear", value))
-    None => ()
-  }
-  match overflow {
-    Some(value) => style.push(("overflow", value.to_string()))
-    None => ()
-  }
-  match z_index {
-    Some(value) => style.push(("z-index", value.to_string()))
-    None => ()
-  }
-  match flex {
-    Some(value) => style.push(("flex", value.to_string()))
-    None => ()
-  }
-  match flex_direction {
-    Some(value) => style.push(("flex-direction", value.to_string()))
-    None => ()
-  }
-  match justify_content {
-    Some(value) => style.push(("justify-content", value.to_string()))
-    None => ()
-  }
-  match align_items {
-    Some(value) => style.push(("align-items", value.to_string()))
-    None => ()
-  }
-  match align_content {
-    Some(value) => style.push(("align-content", value.to_string()))
-    None => ()
-  }
-  match order {
-    Some(value) => style.push(("order", value.to_string()))
-    None => ()
-  }
-  match text_decoration {
-    Some(value) => style.push(("text-decoration", value.to_string()))
-    None => ()
-  }
-  match text_transform {
-    Some(value) => style.push(("text-transform", value))
-    None => ()
-  }
-  match line_height {
-    Some(value) => style.push(("line-height", value.to_string()))
-    None => ()
-  }
-  match letter_spacing {
-    Some(value) => style.push(("letter-spacing", value))
-    None => ()
-  }
-  match white_space {
-    Some(value) => style.push(("white-space", value))
-    None => ()
-  }
-  match word_break {
-    Some(value) => style.push(("word-break", value.to_string()))
-    None => ()
-  }
-  match opacity {
-    Some(value) => style.push(("opacity", value.to_string()))
-    None => ()
-  }
-  match visibility {
-    Some(value) => style.push(("visibility", value))
-    None => ()
-  }
-  match box_shadow {
-    Some(value) => style.push(("box-shadow", value))
-    None => ()
-  }
-  match transition {
-    Some(value) => style.push(("transition", value))
-    None => ()
-  }
-  match box_sizing {
-    Some(value) => style.push(("box-sizing", value.to_string()))
-    None => ()
-  }
-  match border_radius {
-    Some(value) => style.push(("border-radius", value.to_string() + "px"))
-    None => ()
-  }
-  match padding_top {
-    Some(value) => style.push(("padding-top", value.to_string()))
-    None => ()
-  }
-  match padding_bottom {
-    Some(value) => style.push(("padding-bottom", value.to_string()))
-    None => ()
-  }
-  match padding_left {
-    Some(value) => style.push(("padding-left", value.to_string()))
-    None => ()
-  }
-  match padding_right {
-    Some(value) => style.push(("padding-right", value.to_string()))
-    None => ()
-  }
-  match max_width {
-    Some(value) => style.push(("max-width", value.to_string()))
-    None => ()
-  }
-  match min_width {
-    Some(value) => style.push(("min-width", value.to_string()))
-    None => ()
-  }
-  match vertical_align {
-    Some(value) => style.push(("vertical-align", value.to_string()))
-    None => ()
-  }
-  match border_color {
-    Some(value) => style.push(("border-color", value.to_string()))
-    None => ()
-  }
-  match border_width {
-    Some(value) => style.push(("border-width", value.to_string()))
-    None => ()
-  }
-  match border_style {
-    Some(value) => style.push(("border-style", value.to_string()))
-    None => ()
-  }
-  match cursor {
-    Some(value) => style.push(("cursor", value.to_string()))
-    None => ()
-  }
-  match transition_duration {
-    Some(value) => style.push(("transition-duration", value.to_string()))
-    None => ()
-  }
-  match transform {
-    Some(value) => style.push(("transform", value.to_string()))
-    None => ()
-  }
-  match outline {
-    Some(value) => style.push(("outline", value.to_string()))
-    None => ()
-  }
-  match user_select {
-    Some(value) => style.push(("user-select", value.to_string()))
-    None => ()
-  }
-  match margin_top {
-    Some(value) => style.push(("margin-top", value.to_string()))
-    None => ()
-  }
-  match margin_bottom {
-    Some(value) => style.push(("margin-bottom", value.to_string()))
-    None => ()
-  }
-  match margin_left {
-    Some(value) => style.push(("margin-left", value.to_string()))
-    None => ()
-  }
-  match margin_right {
-    Some(value) => style.push(("margin-right", value.to_string()))
-    None => ()
-  }
-  match max_height {
-    Some(value) => style.push(("max-height", value.to_string()))
-    None => ()
-  }
-  match transform_property {
-    Some(xs) => {
-      let value = xs.join(",")
-      style.push(("transform-property", value))
-    }
-    None => ()
-  }
-  match gap {
-    Some(value) => style.push(("gap", value.to_string()))
-    None => ()
-  }
-  match content {
-    Some(value) => style.push(("content", value))
-    None => ()
-  }
-  match content_visibility {
-    Some(value) => style.push(("content-visibility", value.to_string()))
-    None => ()
-  }
-  match filter {
-    Some(value) => style.push(("filter", value.to_string()))
-    None => ()
-  }
-  match object_fit {
-    Some(value) => style.push(("object-fit", value.to_string()))
-    None => ()
-  }
-  match overscroll_behavior_x {
-    Some(value) => style.push(("overscroll-behavior-x", value.to_string()))
-    None => ()
-  }
-  match overscroll_behavior_y {
-    Some(value) => style.push(("overscroll-behavior-y", value.to_string()))
-    None => ()
+  if color is Some(value) {
+    style.push(("color", value.to_string()))
+  }
+  if background_color is Some(value) {
+    style.push(("background-color", value.to_string()))
+  }
+  if font_size is Some(value) {
+    style.push(("font-size", value.to_string() + "px"))
+  }
+  if font_family is Some(value) {
+    style.push(("font-family", value))
+  }
+  if font_weight is Some(value) {
+    style.push(("font-weight", value))
+  }
+  if text_align is Some(value) {
+    style.push(("text-align", value.to_string()))
+  }
+  if display is Some(value) {
+    style.push(("display", value.to_string()))
+  }
+  if margin is Some(value) {
+    style.push(("margin", value.to_string()))
+  }
+  if padding is Some(value) {
+    style.push(("padding", value.to_string()))
+  }
+  if border is Some(value) {
+    style.push(("border", value.to_string()))
+  }
+  if width is Some(value) {
+    style.push(("width", value.to_string()))
+  }
+  if height is Some(value) {
+    style.push(("height", value.to_string()))
+  }
+  if position is Some(value) {
+    style.push(("position", value.to_string()))
+  }
+  if top is Some(value) {
+    style.push(("top", value.to_string()))
+  }
+  if right is Some(value) {
+    style.push(("right", value.to_string()))
+  }
+  if bottom is Some(value) {
+    style.push(("bottom", value.to_string()))
+  }
+  if left is Some(value) {
+    style.push(("left", value.to_string()))
+  }
+  if float is Some(value) {
+    style.push(("float", value))
+  }
+  if clear is Some(value) {
+    style.push(("clear", value))
+  }
+  if overflow is Some(value) {
+    style.push(("overflow", value.to_string()))
+  }
+  if z_index is Some(value) {
+    style.push(("z-index", value.to_string()))
+  }
+  if flex is Some(value) {
+    style.push(("flex", value.to_string()))
+  }
+  if flex_direction is Some(value) {
+    style.push(("flex-direction", value.to_string()))
+  }
+  if justify_content is Some(value) {
+    style.push(("justify-content", value.to_string()))
+  }
+  if align_items is Some(value) {
+    style.push(("align-items", value.to_string()))
+  }
+  if align_content is Some(value) {
+    style.push(("align-content", value.to_string()))
+  }
+  if order is Some(value) {
+    style.push(("order", value.to_string()))
+  }
+  if text_decoration is Some(value) {
+    style.push(("text-decoration", value.to_string()))
+  }
+  if text_transform is Some(value) {
+    style.push(("text-transform", value))
+  }
+  if line_height is Some(value) {
+    style.push(("line-height", value.to_string()))
+  }
+  if letter_spacing is Some(value) {
+    style.push(("letter-spacing", value))
+  }
+  if white_space is Some(value) {
+    style.push(("white-space", value))
+  }
+  if word_break is Some(value) {
+    style.push(("word-break", value.to_string()))
+  }
+  if opacity is Some(value) {
+    style.push(("opacity", value.to_string()))
+  }
+  if visibility is Some(value) {
+    style.push(("visibility", value))
+  }
+  if box_shadow is Some(value) {
+    style.push(("box-shadow", value))
+  }
+  if transition is Some(value) {
+    style.push(("transition", value))
+  }
+  if box_sizing is Some(value) {
+    style.push(("box-sizing", value.to_string()))
+  }
+  if border_radius is Some(value) {
+    style.push(("border-radius", value.to_string() + "px"))
+  }
+  if padding_top is Some(value) {
+    style.push(("padding-top", value.to_string()))
+  }
+  if padding_bottom is Some(value) {
+    style.push(("padding-bottom", value.to_string()))
+  }
+  if padding_left is Some(value) {
+    style.push(("padding-left", value.to_string()))
+  }
+  if padding_right is Some(value) {
+    style.push(("padding-right", value.to_string()))
+  }
+  if max_width is Some(value) {
+    style.push(("max-width", value.to_string()))
+  }
+  if min_width is Some(value) {
+    style.push(("min-width", value.to_string()))
+  }
+  if vertical_align is Some(value) {
+    style.push(("vertical-align", value.to_string()))
+  }
+  if border_color is Some(value) {
+    style.push(("border-color", value.to_string()))
+  }
+  if border_width is Some(value) {
+    style.push(("border-width", value.to_string()))
+  }
+  if border_style is Some(value) {
+    style.push(("border-style", value.to_string()))
+  }
+  if cursor is Some(value) {
+    style.push(("cursor", value.to_string()))
+  }
+  if transition_duration is Some(value) {
+    style.push(("transition-duration", value.to_string()))
+  }
+  if transform is Some(value) {
+    style.push(("transform", value.to_string()))
+  }
+  if outline is Some(value) {
+    style.push(("outline", value.to_string()))
+  }
+  if user_select is Some(value) {
+    style.push(("user-select", value.to_string()))
+  }
+  if margin_top is Some(value) {
+    style.push(("margin-top", value.to_string()))
+  }
+  if margin_bottom is Some(value) {
+    style.push(("margin-bottom", value.to_string()))
+  }
+  if margin_left is Some(value) {
+    style.push(("margin-left", value.to_string()))
+  }
+  if margin_right is Some(value) {
+    style.push(("margin-right", value.to_string()))
+  }
+  if max_height is Some(value) {
+    style.push(("max-height", value.to_string()))
+  }
+  if transform_property is Some(xs) {
+    let value = xs.join(",")
+    style.push(("transform-property", value))
+  }
+  if gap is Some(value) {
+    style.push(("gap", value.to_string()))
+  }
+  if content is Some(value) {
+    style.push(("content", value))
+  }
+  if content_visibility is Some(value) {
+    style.push(("content-visibility", value.to_string()))
+  }
+  if filter is Some(value) {
+    style.push(("filter", value.to_string()))
+  }
+  if object_fit is Some(value) {
+    style.push(("object-fit", value.to_string()))
+  }
+  if overscroll_behavior_x is Some(value) {
+    style.push(("overscroll-behavior-x", value.to_string()))
+  }
+  if overscroll_behavior_y is Some(value) {
+    style.push(("overscroll-behavior-y", value.to_string()))
   }
 
   // CSS Grid Layout
-  match grid_template_columns {
-    Some(value) => style.push(("grid-template-columns", value.to_string()))
-    None => ()
+  if grid_template_columns is Some(value) {
+    style.push(("grid-template-columns", value.to_string()))
   }
-  match grid_template_rows {
-    Some(value) => style.push(("grid-template-rows", value.to_string()))
-    None => ()
+  if grid_template_rows is Some(value) {
+    style.push(("grid-template-rows", value.to_string()))
   }
-  match grid_column {
-    Some(value) => style.push(("grid-column", value.to_string()))
-    None => ()
+  if grid_column is Some(value) {
+    style.push(("grid-column", value.to_string()))
   }
-  match grid_row {
-    Some(value) => style.push(("grid-row", value.to_string()))
-    None => ()
+  if grid_row is Some(value) {
+    style.push(("grid-row", value.to_string()))
   }
-  match grid_area {
-    Some(value) => style.push(("grid-area", value))
-    None => ()
+  if grid_area is Some(value) {
+    style.push(("grid-area", value))
   }
-  match justify_items {
-    Some(value) => style.push(("justify-items", value.to_string()))
-    None => ()
+  if justify_items is Some(value) {
+    style.push(("justify-items", value.to_string()))
   }
-  match align_items_grid {
-    Some(value) => style.push(("align-items", value.to_string()))
-    None => ()
+  if align_items_grid is Some(value) {
+    style.push(("align-items", value.to_string()))
   }
 
   // CSS Animation
-  match animation_direction {
-    Some(value) => style.push(("animation-direction", value.to_string()))
-    None => ()
+  if animation_direction is Some(value) {
+    style.push(("animation-direction", value.to_string()))
   }
-  match animation_fill_mode {
-    Some(value) => style.push(("animation-fill-mode", value.to_string()))
-    None => ()
+  if animation_fill_mode is Some(value) {
+    style.push(("animation-fill-mode", value.to_string()))
   }
-  match animation_play_state {
-    Some(value) => style.push(("animation-play-state", value.to_string()))
-    None => ()
+  if animation_play_state is Some(value) {
+    style.push(("animation-play-state", value.to_string()))
   }
-  match animation_name {
-    Some(value) => style.push(("animation-name", value))
-    None => ()
+  if animation_name is Some(value) {
+    style.push(("animation-name", value))
   }
-  match animation_duration {
-    Some(value) => style.push(("animation-duration", value.to_string()))
-    None => ()
+  if animation_duration is Some(value) {
+    style.push(("animation-duration", value.to_string()))
   }
-  match animation_timing_function {
-    Some(value) => style.push(("animation-timing-function", value.to_string()))
-    None => ()
+  if animation_timing_function is Some(value) {
+    style.push(("animation-timing-function", value.to_string()))
   }
-  match animation_delay {
-    Some(value) => style.push(("animation-delay", value.to_string()))
-    None => ()
+  if animation_delay is Some(value) {
+    style.push(("animation-delay", value.to_string()))
   }
-  match animation_iteration_count {
-    Some(value) => style.push(("animation-iteration-count", value))
-    None => ()
+  if animation_iteration_count is Some(value) {
+    style.push(("animation-iteration-count", value))
   }
 
   // Enhanced Typography
-  match font_style {
-    Some(value) => style.push(("font-style", value.to_string()))
-    None => ()
+  if font_style is Some(value) {
+    style.push(("font-style", value.to_string()))
   }
-  match font_variant {
-    Some(value) => style.push(("font-variant", value.to_string()))
-    None => ()
+  if font_variant is Some(value) {
+    style.push(("font-variant", value.to_string()))
   }
-  match text_transform_enhanced {
-    Some(value) => style.push(("text-transform", value.to_string()))
-    None => ()
+  if text_transform_enhanced is Some(value) {
+    style.push(("text-transform", value.to_string()))
   }
 
   // Modern CSS Features
-  match aspect_ratio {
-    Some(value) => style.push(("aspect-ratio", value.to_string()))
-    None => ()
+  if aspect_ratio is Some(value) {
+    style.push(("aspect-ratio", value.to_string()))
   }
-  match scroll_behavior {
-    Some(value) => style.push(("scroll-behavior", value.to_string()))
-    None => ()
+  if scroll_behavior is Some(value) {
+    style.push(("scroll-behavior", value.to_string()))
   }
-  match resize {
-    Some(value) => style.push(("resize", value.to_string()))
-    None => ()
+  if resize is Some(value) {
+    style.push(("resize", value.to_string()))
   }
-  match container_type {
-    Some(value) => style.push(("container-type", value.to_string()))
-    None => ()
+  if container_type is Some(value) {
+    style.push(("container-type", value.to_string()))
   }
-  match container_name {
-    Some(value) => style.push(("container-name", value))
-    None => ()
+  if container_name is Some(value) {
+    style.push(("container-name", value))
   }
 
   // CSS Functions and Extended Sizes
-  match width_extended {
-    Some(value) => style.push(("width", value.to_string()))
-    None => ()
+  if width_extended is Some(value) {
+    style.push(("width", value.to_string()))
   }
-  match height_extended {
-    Some(value) => style.push(("height", value.to_string()))
-    None => ()
+  if height_extended is Some(value) {
+    style.push(("height", value.to_string()))
   }
-  match margin_extended {
-    Some(value) => style.push(("margin", value.to_string()))
-    None => ()
+  if margin_extended is Some(value) {
+    style.push(("margin", value.to_string()))
   }
-  match padding_extended {
-    Some(value) => style.push(("padding", value.to_string()))
-    None => ()
+  if padding_extended is Some(value) {
+    style.push(("padding", value.to_string()))
   }
   RespoStyle(style)
 }
@@ -852,100 +756,59 @@ pub impl Show for CssPosition with output(self, logger) {
 /// inspect(CssColor::Blue, content="blue")
 /// ```
 pub(all) enum CssColor {
-  /// HSL color with alpha transparency (hue 0-360, saturation/lightness 0-100, alpha 0.0-1.0)
-  /// ```mbt
-  /// inspect(CssColor::Hsla(120, 100, 50, 0.8), content="hsla(120, 100%, 50%, 0.800000011920929)")
-  /// ```
+  /// hsla(h, s%, l%, a) — supported by Chrome
   Hsla(UInt, UInt, UInt, Float)
-  /// HSL color space (hue 0-360, saturation/lightness 0-100)
-  /// ```mbt
-  /// inspect(CssColor::Hsl(0, 100, 50), content="hsl(0, 100%, 50%)")
-  /// ```
+  /// hsl(h, s%, l%) — supported by Chrome
   Hsl(UInt, UInt, UInt)
-  /// HSLUV color with alpha transparency - perceptually uniform color space
-  /// ```mbt
-  /// inspect(CssColor::Hsluva(180, 80, 60, 0.9), content="hsluva(180, 80%, 60%, 0.8999999761581421)")
-  /// ```
+  /// hsluv(h, s%, l%, a) — non-standard, not supported by browsers
   Hsluva(UInt, UInt, UInt, Float)
-  /// HSLUV color space - perceptually uniform alternative to HSL
-  /// ```mbt
-  /// inspect(CssColor::Hsluv(270, 90, 70), content="hsluv(270, 90%, 70%)")
-  /// ```
+  /// hsluv(h, s%, l%) — non-standard, not supported by browsers
   Hsluv(UInt, UInt, UInt)
-  /// RGB color with alpha transparency (red/green/blue 0-255, alpha 0.0-1.0)
-  /// ```mbt
-  /// inspect(CssColor::Rgba(255, 128, 0, 0.7), content="rgba(255, 128, 0, 0.699999988079071)")
-  /// ```
+  /// rgba(r, g, b, a) — supported by Chrome
   Rgba(UInt, UInt, UInt, Float)
-  /// RGB color space (red/green/blue values 0-255)
-  /// ```mbt
-  /// inspect(CssColor::Rgb(255, 255, 0), content="rgb(255, 255, 0)")
-  /// ```
+  /// rgb(r, g, b) — supported by Chrome
   Rgb(UInt, UInt, UInt)
-  /// Hexadecimal color notation (red/green/blue values 0-255)
-  /// ```mbt
-  /// inspect(CssColor::Hex(255, 0, 255), content="#ff00ff")
-  /// ```
+  /// #rrggbb — supported by Chrome
   Hex(UInt, UInt, UInt)
-  /// Named color: red
-  /// ```mbt
-  /// inspect(CssColor::Red, content="red")
-  /// ```
+  /// lch(L C H) — supported by Chrome
+  Lch(Float, Float, Float)
+  /// lch(L C H / A) — supported by Chrome
+  Lcha(Float, Float, Float, Float)
+  /// lab(L a b) — supported by Chrome
+  Lab(Float, Float, Float)
+  /// lab(L a b / A) — supported by Chrome
+  Laba(Float, Float, Float, Float)
+  /// oklch(L C H) — supported by Chrome
+  Oklch(Float, Float, Float)
+  /// oklch(L C H / A) — supported by Chrome
+  Oklcha(Float, Float, Float, Float)
+  /// oklab(L a b) — supported by Chrome
+  Oklab(Float, Float, Float)
+  /// oklab(L a b / A) — supported by Chrome
+  Oklaba(Float, Float, Float, Float)
+  /// hsl(0, 100%, 50%)
   Red
-  /// Named color: green
-  /// ```mbt
-  /// inspect(CssColor::Green, content="green")
-  /// ```
+  /// hsl(120, 100%, 50%)
   Green
-  /// Named color: blue
-  /// ```mbt
-  /// inspect(CssColor::Blue, content="blue")
-  /// ```
+  /// hsl(240, 100%, 50%)
   Blue
-  /// Named color: white
-  /// ```mbt
-  /// inspect(CssColor::White, content="white")
-  /// ```
+  /// hsl(0, 0%, 100%)
   White
-  /// Named color: black
-  /// ```mbt
-  /// inspect(CssColor::Black, content="black")
-  /// ```
+  /// hsl(0, 0%, 0%)
   Black
-  /// Named color: gray
-  /// ```mbt
-  /// inspect(CssColor::Gray, content="gray")
-  /// ```
+  /// hsl(0, 0%, 50%)
   Gray
-  /// Named color: yellow
-  /// ```mbt
-  /// inspect(CssColor::Yellow, content="yellow")
-  /// ```
+  /// hsl(60, 100%, 50%)
   Yellow
-  /// Named color: purple
-  /// ```mbt
-  /// inspect(CssColor::Purple, content="purple")
-  /// ```
+  /// hsl(300, 100%, 50%)
   Purple
-  /// Named color: cyan
-  /// ```mbt
-  /// inspect(CssColor::Cyan, content="cyan")
-  /// ```
+  /// hsl(180, 100%, 50%)
   Cyan
-  /// Named color: orange
-  /// ```mbt
-  /// inspect(CssColor::Orange, content="orange")
-  /// ```
+  /// hsl(39, 100%, 50%)
   Orange
-  /// Named color: pink
-  /// ```mbt
-  /// inspect(CssColor::Pink, content="pink")
-  /// ```
+  /// hsl(350, 100%, 88%)
   Pink
-  /// Custom CSS color value as raw string
-  /// ```mbt
-  /// inspect(CssColor::RawString("rebeccapurple"), content="rebeccapurple")
-  /// ```
+  /// Example raw CSS color: hsl(270, 50%, 40%) (rebeccapurple)
   RawString(String)
   /// Fully transparent color
   /// ```mbt
@@ -1012,6 +875,58 @@ pub impl Show for CssColor with output(self, logger) {
       let g_hex = uint_to_hex(g)
       let b_hex = uint_to_hex(b)
       "#" + r_hex + g_hex + b_hex
+    }
+    Lcha(l, c, h, a) => {
+      let l_str = l.to_string()
+      let c_str = c.to_string()
+      let h_str = h.to_string()
+      let a_str = a.to_string()
+      "lch(" + l_str + " " + c_str + " " + h_str + " / " + a_str + ")"
+    }
+    Lch(l, c, h) => {
+      let l_str = l.to_string()
+      let c_str = c.to_string()
+      let h_str = h.to_string()
+      "lch(" + l_str + " " + c_str + " " + h_str + ")"
+    }
+    Laba(l, a1, b1, alpha) => {
+      let l_str = l.to_string()
+      let a_str = a1.to_string()
+      let b_str = b1.to_string()
+      let alpha_str = alpha.to_string()
+      "lab(" + l_str + " " + a_str + " " + b_str + " / " + alpha_str + ")"
+    }
+    Lab(l, a1, b1) => {
+      let l_str = l.to_string()
+      let a_str = a1.to_string()
+      let b_str = b1.to_string()
+      "lab(" + l_str + " " + a_str + " " + b_str + ")"
+    }
+    Oklcha(l, c, h, a) => {
+      let l_str = l.to_string()
+      let c_str = c.to_string()
+      let h_str = h.to_string()
+      let a_str = a.to_string()
+      "oklch(" + l_str + " " + c_str + " " + h_str + " / " + a_str + ")"
+    }
+    Oklch(l, c, h) => {
+      let l_str = l.to_string()
+      let c_str = c.to_string()
+      let h_str = h.to_string()
+      "oklch(" + l_str + " " + c_str + " " + h_str + ")"
+    }
+    Oklaba(l, a1, b1, alpha) => {
+      let l_str = l.to_string()
+      let a_str = a1.to_string()
+      let b_str = b1.to_string()
+      let alpha_str = alpha.to_string()
+      "oklab(" + l_str + " " + a_str + " " + b_str + " / " + alpha_str + ")"
+    }
+    Oklab(l, a1, b1) => {
+      let l_str = l.to_string()
+      let a_str = a1.to_string()
+      let b_str = b1.to_string()
+      "oklab(" + l_str + " " + a_str + " " + b_str + ")"
     }
     Red => "red"
     Green => "green"
@@ -1974,182 +1889,182 @@ pub impl Show for CssTextDecoration with output(self, logger) {
 /// inspect(CssCursor::Move, content="move")
 /// ```
 pub(all) enum CssCursor {
-  /// Browser determines cursor automatically
+  /// 🖱️ Browser determines cursor automatically
   /// ```mbt
   /// inspect(CssCursor::Auto, content="auto")
   /// ```
   Auto
-  /// Default cursor (usually an arrow)
+  /// → Default cursor (usually an arrow)
   /// ```mbt
   /// inspect(CssCursor::Default, content="default")
   /// ```
   Default
-  /// No cursor is rendered
+  /// ⊘ No cursor is rendered
   /// ```mbt
   /// inspect(CssCursor::None, content="none")
   /// ```
   None
-  /// Hand cursor indicating a clickable element
+  /// ☞ Hand cursor indicating a clickable element
   /// ```mbt
   /// inspect(CssCursor::Pointer, content="pointer")
   /// ```
   Pointer
-  /// Context menu cursor
+  /// ☰ Context menu cursor
   /// ```mbt
   /// inspect(CssCursor::ContextMenu, content="context-menu")
   /// ```
   ContextMenu
-  /// Help cursor indicating help is available
+  /// ❓ Help cursor indicating help is available
   /// ```mbt
   /// inspect(CssCursor::Help, content="help")
   /// ```
   Help
-  /// Progress cursor indicating background activity
+  /// ⧗ Progress cursor indicating background activity
   /// ```mbt
   /// inspect(CssCursor::Progress, content="progress")
   /// ```
   Progress
-  /// Wait cursor indicating the program is busy
+  /// ⧗ Wait cursor indicating the program is busy
   /// ```mbt
   /// inspect(CssCursor::Wait, content="wait")
   /// ```
   Wait
-  /// Cell cursor for table cell selection
+  /// ⊞ Cell cursor for table cell selection
   /// ```mbt
   /// inspect(CssCursor::Cell, content="cell")
   /// ```
   Cell
-  /// Crosshair cursor for precise selection
+  /// ⌖ Crosshair cursor for precise selection
   /// ```mbt
   /// inspect(CssCursor::Crosshair, content="crosshair")
   /// ```
   Crosshair
-  /// Text cursor for text selection
+  /// 𝐈 Text cursor for text selection
   /// ```mbt
   /// inspect(CssCursor::Text, content="text")
   /// ```
   Text
-  /// Vertical text cursor
+  /// 𝐈 Vertical text cursor
   /// ```mbt
   /// inspect(CssCursor::VerticalText, content="vertical-text")
   /// ```
   VerticalText
-  /// Alias cursor indicating a shortcut will be created
+  /// ⤴ Alias cursor indicating a shortcut will be created
   /// ```mbt
   /// inspect(CssCursor::Alias, content="alias")
   /// ```
   Alias
-  /// Copy cursor indicating something will be copied
+  /// ⧉ Copy cursor indicating something will be copied
   /// ```mbt
   /// inspect(CssCursor::Copy, content="copy")
   /// ```
   Copy
-  /// Move cursor for draggable elements
+  /// ✥ Move cursor for draggable elements
   /// ```mbt
   /// inspect(CssCursor::Move, content="move")
   /// ```
   Move
-  /// No-drop cursor indicating drop is not allowed
+  /// ⊘ No-drop cursor indicating drop is not allowed
   /// ```mbt
   /// inspect(CssCursor::NoDrop, content="no-drop")
   /// ```
   NoDrop
-  /// Not-allowed cursor indicating action is forbidden
+  /// ✘ Not-allowed cursor indicating action is forbidden
   /// ```mbt
   /// inspect(CssCursor::NotAllowed, content="not-allowed")
   /// ```
   NotAllowed
-  /// Grab cursor for grabbable elements
+  /// ✋ Grab cursor for grabbable elements
   /// ```mbt
   /// inspect(CssCursor::Grab, content="grab")
   /// ```
   Grab
-  /// Grabbing cursor for elements being dragged
+  /// ✊ Grabbing cursor for elements being dragged
   /// ```mbt
   /// inspect(CssCursor::Grabbing, content="grabbing")
   /// ```
   Grabbing
-  /// All-scroll cursor for scrollable content
+  /// ⊕ All-scroll cursor for scrollable content
   /// ```mbt
   /// inspect(CssCursor::AllScroll, content="all-scroll")
   /// ```
   AllScroll
-  /// Column resize cursor
+  /// ↔ Column resize cursor
   /// ```mbt
   /// inspect(CssCursor::ColResize, content="col-resize")
   /// ```
   ColResize
-  /// Row resize cursor
+  /// ↕ Row resize cursor
   /// ```mbt
   /// inspect(CssCursor::RowResize, content="row-resize")
   /// ```
   RowResize
-  /// North resize cursor
+  /// ↑ North resize cursor
   /// ```mbt
   /// inspect(CssCursor::NResize, content="n-resize")
   /// ```
   NResize
-  /// East resize cursor
+  /// → East resize cursor
   /// ```mbt
   /// inspect(CssCursor::EResize, content="e-resize")
   /// ```
   EResize
-  /// South resize cursor
+  /// ↓ South resize cursor
   /// ```mbt
   /// inspect(CssCursor::SResize, content="s-resize")
   /// ```
   SResize
-  /// West resize cursor
+  /// ← West resize cursor
   /// ```mbt
   /// inspect(CssCursor::WResize, content="w-resize")
   /// ```
   WResize
-  /// Northeast resize cursor
+  /// ↗ Northeast resize cursor
   /// ```mbt
   /// inspect(CssCursor::NeResize, content="ne-resize")
   /// ```
   NeResize
-  /// Northwest resize cursor
+  /// ↖ Northwest resize cursor
   /// ```mbt
   /// inspect(CssCursor::NwResize, content="nw-resize")
   /// ```
   NwResize
-  /// Southeast resize cursor
+  /// ↘ Southeast resize cursor
   /// ```mbt
   /// inspect(CssCursor::SeResize, content="se-resize")
   /// ```
   SeResize
-  /// Southwest resize cursor
+  /// ↙ Southwest resize cursor
   /// ```mbt
   /// inspect(CssCursor::SwResize, content="sw-resize")
   /// ```
   SwResize
-  /// East-west resize cursor
+  /// ↔ East-west resize cursor
   /// ```mbt
   /// inspect(CssCursor::EwResize, content="ew-resize")
   /// ```
   EwResize
-  /// North-south resize cursor
+  /// ↕ North-south resize cursor
   /// ```mbt
   /// inspect(CssCursor::NsResize, content="ns-resize")
   /// ```
   NsResize
-  /// Northeast-southwest resize cursor
+  /// ↗↙ Northeast-southwest resize cursor
   /// ```mbt
   /// inspect(CssCursor::NeswResize, content="nesw-resize")
   /// ```
   NeswResize
-  /// Northwest-southeast resize cursor
+  /// ↖↘ Northwest-southeast resize cursor
   /// ```mbt
   /// inspect(CssCursor::NwseResize, content="nwse-resize")
   /// ```
   NwseResize
-  /// Zoom in cursor
+  /// 🔍 Zoom in cursor
   /// ```mbt
   /// inspect(CssCursor::ZoomIn, content="zoom-in")
   /// ```
   ZoomIn
-  /// Zoom out cursor
+  /// 🔍 Zoom out cursor
   /// ```mbt
   /// inspect(CssCursor::ZoomOut, content="zoom-out")
   /// ```
