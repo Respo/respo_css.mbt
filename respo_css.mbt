@@ -186,14 +186,14 @@ pub(all) struct RespoStyle(Array[(String, String)]) derive(Eq, Default)
 // is_empty
 
 ///|
-pub fn is_empty(self : RespoStyle) -> Bool {
-  self.inner().is_empty()
+pub fn RespoStyle::is_empty(self : RespoStyle) -> Bool {
+  self.0.is_empty()
 }
 
 ///|
 pub impl Show for RespoStyle with output(self, logger) {
   let mut result = ""
-  for pair in self.inner() {
+  for pair in self.0 {
     let (property, value) = pair
     result = result + property + ":" + value + "; "
   }
@@ -202,15 +202,19 @@ pub impl Show for RespoStyle with output(self, logger) {
 
 ///|
 /// for custom styles not defined with enum, use this function to add
-pub fn add(self : RespoStyle, property : String, value : String) -> RespoStyle {
-  self.inner().push((property, value))
+pub fn RespoStyle::add(
+  self : RespoStyle,
+  property : String,
+  value : String,
+) -> RespoStyle {
+  self.0.push((property, value))
   self
 }
 
 ///|
-pub fn merge(self : RespoStyle, other : RespoStyle) -> RespoStyle {
+pub fn RespoStyle::merge(self : RespoStyle, other : RespoStyle) -> RespoStyle {
   let mut result = self
-  for pair in other.inner() {
+  for pair in other.0 {
     let (property, value) = pair
     result = result.add(property, value)
   }
@@ -219,7 +223,7 @@ pub fn merge(self : RespoStyle, other : RespoStyle) -> RespoStyle {
 
 ///|
 pub fn RespoStyle::length(self : RespoStyle) -> Int {
-  self.inner().length()
+  self.0.length()
 }
 
 ///|

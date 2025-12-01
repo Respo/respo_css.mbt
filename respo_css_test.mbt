@@ -1095,7 +1095,7 @@ test "respo_style_complex_grid_layout" {
 }
 
 ///|
-test "respo_style_responsive_design" {
+test "respo_style_responsive_design_with_contained" {
   let responsive_style = @respo_css.respo_style(
     width_extended=@respo_css.CssSize::Function(
       @respo_css.CssFunction::Min([
