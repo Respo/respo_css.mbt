@@ -342,6 +342,15 @@ pub fn respo_style(
   height_extended? : CssSize,
   margin_extended? : CssSize,
   padding_extended? : CssSize,
+  // Enhanced Properties
+  border_radius_obj? : CssBorderRadius,
+  box_shadow_obj? : CssBoxShadow,
+  background_image? : CssBackgroundImage,
+  clip_path? : CssClipPath,
+  text_shadow? : CssTextShadow,
+  letter_spacing_type? : CssLetterSpacing,
+  pointer_events? : CssPointerEvents,
+  transition_prop? : CssTransitionProperty,
 ) -> RespoStyle {
   let style : Array[(String, String)] = []
   if color is Some(value) {
@@ -636,6 +645,32 @@ pub fn respo_style(
   }
   if padding_extended is Some(value) {
     style.push(("padding", value.to_string()))
+  }
+  if border_radius_obj is Some(value) {
+    for item in value.to_styles() {
+      style.push(item)
+    }
+  }
+  if box_shadow_obj is Some(value) {
+    style.push(("box-shadow", value.to_string()))
+  }
+  if background_image is Some(value) {
+    style.push(("background-image", value.to_string()))
+  }
+  if clip_path is Some(value) {
+    style.push(("clip-path", value.to_string()))
+  }
+  if text_shadow is Some(value) {
+    style.push(("text-shadow", value.to_string()))
+  }
+  if letter_spacing_type is Some(value) {
+    style.push(("letter-spacing", value.to_string()))
+  }
+  if pointer_events is Some(value) {
+    style.push(("pointer-events", value.to_string()))
+  }
+  if transition_prop is Some(value) {
+    style.push(("transition", value.to_string()))
   }
   RespoStyle(style)
 }
