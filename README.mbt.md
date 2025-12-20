@@ -30,6 +30,7 @@ moon add tiye/respo_css
 
 ```moonbit
 // Create basic styles
+
 ///|
 let style : RespoStyle = respo_style(
   color=CssColor::Red,
@@ -49,6 +50,7 @@ let _css_string : String = style.to_string()
 
 ```moonbit
 // Create multiple styles
+
 ///|
 let base_style : RespoStyle = respo_style(color=CssColor::Blue, font_size=14)
 
