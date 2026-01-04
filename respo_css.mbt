@@ -287,6 +287,23 @@ pub fn respo_style(
   border_style? : CssBorderStyle,
   border_color? : CssColor,
   border_width? : CssSize,
+  // Individual border properties
+  border_top? : CssBorder,
+  border_top_width? : CssSize,
+  border_top_color? : CssColor,
+  border_top_style? : CssBorderStyle,
+  border_bottom? : CssBorder,
+  border_bottom_width? : CssSize,
+  border_bottom_color? : CssColor,
+  border_bottom_style? : CssBorderStyle,
+  border_left? : CssBorder,
+  border_left_width? : CssSize,
+  border_left_color? : CssColor,
+  border_left_style? : CssBorderStyle,
+  border_right? : CssBorder,
+  border_right_width? : CssSize,
+  border_right_color? : CssColor,
+  border_right_style? : CssBorderStyle,
   cursor? : CssCursor,
   transition_duration? : CssDuration,
   transform? : CssTransform,
@@ -499,6 +516,55 @@ pub fn respo_style(
   }
   if border_style is Some(value) {
     style.push(("border-style", value.to_string()))
+  }
+  // Individual border properties
+  if border_top is Some(value) {
+    style.push(("border-top", value.to_string()))
+  }
+  if border_top_width is Some(value) {
+    style.push(("border-top-width", value.to_string()))
+  }
+  if border_top_color is Some(value) {
+    style.push(("border-top-color", value.to_string()))
+  }
+  if border_top_style is Some(value) {
+    style.push(("border-top-style", value.to_string()))
+  }
+  if border_bottom is Some(value) {
+    style.push(("border-bottom", value.to_string()))
+  }
+  if border_bottom_width is Some(value) {
+    style.push(("border-bottom-width", value.to_string()))
+  }
+  if border_bottom_color is Some(value) {
+    style.push(("border-bottom-color", value.to_string()))
+  }
+  if border_bottom_style is Some(value) {
+    style.push(("border-bottom-style", value.to_string()))
+  }
+  if border_left is Some(value) {
+    style.push(("border-left", value.to_string()))
+  }
+  if border_left_width is Some(value) {
+    style.push(("border-left-width", value.to_string()))
+  }
+  if border_left_color is Some(value) {
+    style.push(("border-left-color", value.to_string()))
+  }
+  if border_left_style is Some(value) {
+    style.push(("border-left-style", value.to_string()))
+  }
+  if border_right is Some(value) {
+    style.push(("border-right", value.to_string()))
+  }
+  if border_right_width is Some(value) {
+    style.push(("border-right-width", value.to_string()))
+  }
+  if border_right_color is Some(value) {
+    style.push(("border-right-color", value.to_string()))
+  }
+  if border_right_style is Some(value) {
+    style.push(("border-right-style", value.to_string()))
   }
   if cursor is Some(value) {
     style.push(("cursor", value.to_string()))
