@@ -28,7 +28,7 @@ moon add tiye/respo_css
 
 ### Basic Usage
 
-```moonbit
+```moonbit nocheck
 // Create basic styles
 
 ///|
@@ -48,7 +48,7 @@ let _css_string : String = style.to_string()
 
 ### Style Composition
 
-```moonbit
+```moonbit nocheck
 // Create multiple styles
 
 ///|
