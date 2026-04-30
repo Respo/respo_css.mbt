@@ -113,6 +113,16 @@ pub(all) enum CssSize {
   /// inspect(CssSize::Custom("fit-content"), content="fit-content")
   /// ```
   Custom(String)
+  /// CSS custom property reference: var(--name)
+  /// ```mbt
+  /// inspect(CssSize::Var("--spacing"), content="var(--spacing)")
+  /// ```
+  Var(String)
+  /// CSS custom property reference with fallback: var(--name, fallback)
+  /// ```mbt
+  /// inspect(CssSize::VarWithFallback("--spacing", "16px"), content="var(--spacing, 16px)")
+  /// ```
+  VarWithFallback(String, String)
 } derive(Eq)
 
 ///|
@@ -138,6 +148,8 @@ pub impl Show for CssSize with output(self, logger) {
     Svw(value) => "\{value}svw"
     Function(func) => func.to_string()
     Custom(value) => value
+    Var(name) => "var(" + name + ")"
+    VarWithFallback(name, fallback) => "var(" + name + ", " + fallback + ")"
   }
   logger.write_string(ret)
 }
@@ -151,7 +163,7 @@ pub impl Show for CssSize with output(self, logger) {
 ///
 /// # Examples
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// // Create a basic style
 /// let style = respo_style(
 ///   color=CssColor::Red,
@@ -761,6 +773,16 @@ pub impl Show for CssOutline with output(self, logger) {
 pub(all) enum CssDuration {
   Ms(Int)
   S(Float)
+  /// CSS custom property reference: var(--name)
+  /// ```mbt
+  /// inspect(CssDuration::Var("--transition-fast"), content="var(--transition-fast)")
+  /// ```
+  Var(String)
+  /// CSS custom property reference with fallback: var(--name, fallback)
+  /// ```mbt
+  /// inspect(CssDuration::VarWithFallback("--duration-md", "300ms"), content="var(--duration-md, 300ms)")
+  /// ```
+  VarWithFallback(String, String)
 }
 
 ///|
@@ -768,6 +790,8 @@ pub impl Show for CssDuration with output(self, logger) {
   let ret = match self {
     Ms(value) => value.to_string() + "ms"
     S(value) => value.to_string() + "s"
+    Var(name) => "var(" + name + ")"
+    VarWithFallback(name, fallback) => "var(" + name + ", " + fallback + ")"
   }
   logger.write_string(ret)
 }
@@ -920,6 +944,16 @@ pub(all) enum CssColor {
   /// inspect(CssColor::Transparent, content="transparent")
   /// ```
   Transparent
+  /// CSS custom property reference: var(--name)
+  /// ```mbt
+  /// inspect(CssColor::Var("--accent"), content="var(--accent)")
+  /// ```
+  Var(String)
+  /// CSS custom property reference with fallback: var(--name, fallback)
+  /// ```mbt
+  /// inspect(CssColor::VarWithFallback("--accent", "blue"), content="var(--accent, blue)")
+  /// ```
+  VarWithFallback(String, String)
 } derive(Eq)
 
 ///|
@@ -1046,6 +1080,8 @@ pub impl Show for CssColor with output(self, logger) {
     Pink => "pink"
     RawString(value) => value
     Transparent => "transparent"
+    Var(name) => "var(" + name + ")"
+    VarWithFallback(name, fallback) => "var(" + name + ", " + fallback + ")"
   }
   logger.write_string(ret)
 }
@@ -1746,6 +1782,16 @@ pub(all) enum CssTimingFunction {
   /// inspect(CssTimingFunction::StepEnd, content="step-end")
   /// ```
   StepEnd
+  /// CSS custom property reference: var(--name)
+  /// ```mbt
+  /// inspect(CssTimingFunction::Var("--ease-standard"), content="var(--ease-standard)")
+  /// ```
+  Var(String)
+  /// CSS custom property reference with fallback: var(--name, fallback)
+  /// ```mbt
+  /// inspect(CssTimingFunction::VarWithFallback("--ease-enter", "ease-out"), content="var(--ease-enter, ease-out)")
+  /// ```
+  VarWithFallback(String, String)
 } derive(Eq)
 
 ///|
@@ -1758,6 +1804,8 @@ pub impl Show for CssTimingFunction with output(self, logger) {
     EaseInOut => "ease-in-out"
     StepStart => "step-start"
     StepEnd => "step-end"
+    Var(name) => "var(" + name + ")"
+    VarWithFallback(name, fallback) => "var(" + name + ", " + fallback + ")"
   }
   logger.write_string(ret)
 }

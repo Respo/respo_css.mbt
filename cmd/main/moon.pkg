@@ -1,0 +1,7 @@
+import {
+  "tiye/respo_css" @lib,
+}
+
+options(
+  "is-main": true,
+)
