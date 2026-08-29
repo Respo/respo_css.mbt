@@ -27,6 +27,17 @@ test "css_size" {
 }
 
 ///|
+test "css_size_modern_viewport_and_container_units" {
+  inspect(@respo_css.CssSize::Dvmin(10.0).to_string(), content="10dvmin")
+  inspect(@respo_css.CssSize::Dvb(10.0).to_string(), content="10dvb")
+  inspect(@respo_css.CssSize::Lvmax(10.0).to_string(), content="10lvmax")
+  inspect(@respo_css.CssSize::Svi(10.0).to_string(), content="10svi")
+  inspect(@respo_css.CssSize::Vb(10.0).to_string(), content="10vb")
+  inspect(@respo_css.CssSize::Cqw(10.0).to_string(), content="10cqw")
+  inspect(@respo_css.CssSize::Cqmax(10.0).to_string(), content="10cqmax")
+}
+
+///|
 test "css_color" {
   inspect(@respo_css.CssColor::Red.to_string(), content="red")
   inspect(@respo_css.CssColor::Green.to_string(), content="green")
@@ -1051,6 +1062,33 @@ test "respo_style_modern_features" {
   )
   inspect(modern_style.is_empty(), content="false")
   inspect(modern_style.length(), content="5")
+}
+
+///|
+test "respo_style_modern_layout_properties" {
+  let style = @respo_css.respo_style(
+    display=@respo_css.CssDisplay::Flex,
+    overflow_x=@respo_css.CssOverflow::Hidden,
+    overflow_y=@respo_css.CssOverflow::Auto,
+    flex_grow=1.0,
+    flex_shrink=0.0,
+    flex_basis=@respo_css.CssSize::Percent(50.0),
+    flex_wrap=@respo_css.CssFlexWrap::Wrap,
+    align_self=@respo_css.CssFlexAlignItems::Center,
+    justify_self=@respo_css.CssJustifyItems::Center,
+    text_overflow=@respo_css.CssTextOverflow::Ellipsis,
+    min_height=@respo_css.CssSize::Dvh(100.0),
+    row_gap=@respo_css.CssSize::Px(8.0),
+    column_gap=@respo_css.CssSize::Px(16.0),
+    inset_inline=@respo_css.CssSize::Auto,
+    inset_block=@respo_css.CssSize::Px(0.0),
+    color_scheme=@respo_css.CssColorScheme::LightDark,
+    accent_color=@respo_css.CssColor::Oklch(0.65, 0.18, 250.0),
+  )
+  inspect(
+    style.to_string(),
+    content="display:flex; overflow-x:hidden; overflow-y:auto; flex-grow:1; flex-shrink:0; flex-basis:50%; flex-wrap:wrap; align-self:center; justify-self:center; text-overflow:ellipsis; min-height:100dvh; row-gap:8px; column-gap:16px; inset-inline:auto; inset-block:0px; color-scheme:light dark; accent-color:oklch(0.6499999761581421 0.18000000715255737 250); ",
+  )
 }
 
 ///|

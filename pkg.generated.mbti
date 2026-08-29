@@ -2,7 +2,7 @@
 package "tiye/respo_css"
 
 // Values
-pub fn respo_style(color? : CssColor, background_color? : CssColor, font_size? : UInt, font_family? : String, font_weight? : String, text_align? : CssTextAlign, display? : CssDisplay, margin? : CssSize, padding? : CssSize, border? : CssBorder, width? : CssSize, height? : CssSize, position? : CssPosition, top? : CssSize, right? : CssSize, bottom? : CssSize, left? : CssSize, float? : String, clear? : String, overflow? : CssOverflow, z_index? : Int, flex? : Float, flex_direction? : CssFlexDirection, justify_content? : CssFlexJustifyContent, align_items? : CssFlexAlignItems, align_content? : CssFlexAlignContent, order? : Int, text_decoration? : CssTextDecoration, text_transform? : String, line_height? : CssLineHeight, letter_spacing? : String, white_space? : String, word_break? : CssWordBreak, opacity? : Float, visibility? : String, box_shadow? : String, transition? : String, box_sizing? : CssBoxSizing, border_radius? : Float, padding_top? : CssSize, padding_bottom? : CssSize, padding_left? : CssSize, padding_right? : CssSize, min_width? : CssSize, max_width? : CssSize, vertical_align? : CssVerticalAlign, border_style? : CssBorderStyle, border_color? : CssColor, border_width? : CssSize, border_top? : CssBorder, border_top_width? : CssSize, border_top_color? : CssColor, border_top_style? : CssBorderStyle, border_bottom? : CssBorder, border_bottom_width? : CssSize, border_bottom_color? : CssColor, border_bottom_style? : CssBorderStyle, border_left? : CssBorder, border_left_width? : CssSize, border_left_color? : CssColor, border_left_style? : CssBorderStyle, border_right? : CssBorder, border_right_width? : CssSize, border_right_color? : CssColor, border_right_style? : CssBorderStyle, cursor? : CssCursor, transition_duration? : CssDuration, transform? : CssTransform, outline? : CssOutline, user_select? : CssUserSelect, margin_top? : CssSize, margin_bottom? : CssSize, margin_left? : CssSize, margin_right? : CssSize, max_height? : CssSize, transform_property? : Array[String], gap? : CssSize, content? : String, content_visibility? : CssContentVisibility, filter? : CssFilter, object_fit? : CssObjectFit, overscroll_behavior_x? : CssOverscrollBehavior, overscroll_behavior_y? : CssOverscrollBehavior, grid_template_columns? : CssGridTemplateColumns, grid_template_rows? : CssGridTemplateRows, grid_column? : CssGridArea, grid_row? : CssGridArea, grid_area? : String, justify_items? : CssJustifyItems, align_items_grid? : CssAlignItems, animation_direction? : CssAnimationDirection, animation_fill_mode? : CssAnimationFillMode, animation_play_state? : CssAnimationPlayState, animation_name? : String, animation_duration? : CssDuration, animation_timing_function? : CssTimingFunction, animation_delay? : CssDuration, animation_iteration_count? : String, font_style? : CssFontStyle, font_variant? : CssFontVariant, text_transform_enhanced? : CssTextTransform, aspect_ratio? : CssAspectRatio, scroll_behavior? : CssScrollBehavior, resize? : CssResize, container_type? : CssContainerType, container_name? : String, width_extended? : CssSize, height_extended? : CssSize, margin_extended? : CssSize, padding_extended? : CssSize, border_radius_obj? : CssBorderRadius, box_shadow_obj? : CssBoxShadow, background_image? : CssBackgroundImage, clip_path? : CssClipPath, text_shadow? : CssTextShadow, letter_spacing_type? : CssLetterSpacing, pointer_events? : CssPointerEvents, transition_prop? : CssTransitionProperty) -> RespoStyle
+pub fn respo_style(color? : CssColor, background_color? : CssColor, font_size? : UInt, font_family? : String, font_weight? : String, text_align? : CssTextAlign, display? : CssDisplay, margin? : CssSize, padding? : CssSize, border? : CssBorder, width? : CssSize, height? : CssSize, position? : CssPosition, top? : CssSize, right? : CssSize, bottom? : CssSize, left? : CssSize, float? : String, clear? : String, overflow? : CssOverflow, overflow_x? : CssOverflow, overflow_y? : CssOverflow, z_index? : Int, flex? : Float, flex_grow? : Float, flex_shrink? : Float, flex_basis? : CssSize, flex_wrap? : CssFlexWrap, flex_direction? : CssFlexDirection, justify_content? : CssFlexJustifyContent, align_items? : CssFlexAlignItems, align_content? : CssFlexAlignContent, align_self? : CssFlexAlignItems, justify_self? : CssJustifyItems, order? : Int, text_decoration? : CssTextDecoration, text_transform? : String, line_height? : CssLineHeight, letter_spacing? : String, white_space? : String, word_break? : CssWordBreak, text_overflow? : CssTextOverflow, opacity? : Float, visibility? : String, box_shadow? : String, transition? : String, box_sizing? : CssBoxSizing, border_radius? : Float, padding_top? : CssSize, padding_bottom? : CssSize, padding_left? : CssSize, padding_right? : CssSize, min_width? : CssSize, max_width? : CssSize, vertical_align? : CssVerticalAlign, border_style? : CssBorderStyle, border_color? : CssColor, border_width? : CssSize, border_top? : CssBorder, border_top_width? : CssSize, border_top_color? : CssColor, border_top_style? : CssBorderStyle, border_bottom? : CssBorder, border_bottom_width? : CssSize, border_bottom_color? : CssColor, border_bottom_style? : CssBorderStyle, border_left? : CssBorder, border_left_width? : CssSize, border_left_color? : CssColor, border_left_style? : CssBorderStyle, border_right? : CssBorder, border_right_width? : CssSize, border_right_color? : CssColor, border_right_style? : CssBorderStyle, cursor? : CssCursor, transition_duration? : CssDuration, transform? : CssTransform, outline? : CssOutline, user_select? : CssUserSelect, margin_top? : CssSize, margin_bottom? : CssSize, margin_left? : CssSize, margin_right? : CssSize, max_height? : CssSize, min_height? : CssSize, transform_property? : Array[String], gap? : CssSize, row_gap? : CssSize, column_gap? : CssSize, inset? : CssSize, inset_inline? : CssSize, inset_block? : CssSize, content? : String, content_visibility? : CssContentVisibility, filter? : CssFilter, object_fit? : CssObjectFit, overscroll_behavior_x? : CssOverscrollBehavior, overscroll_behavior_y? : CssOverscrollBehavior, grid_template_columns? : CssGridTemplateColumns, grid_template_rows? : CssGridTemplateRows, grid_column? : CssGridArea, grid_row? : CssGridArea, grid_area? : String, justify_items? : CssJustifyItems, align_items_grid? : CssAlignItems, animation_direction? : CssAnimationDirection, animation_fill_mode? : CssAnimationFillMode, animation_play_state? : CssAnimationPlayState, animation_name? : String, animation_duration? : CssDuration, animation_timing_function? : CssTimingFunction, animation_delay? : CssDuration, animation_iteration_count? : String, font_style? : CssFontStyle, font_variant? : CssFontVariant, text_transform_enhanced? : CssTextTransform, aspect_ratio? : CssAspectRatio, scroll_behavior? : CssScrollBehavior, resize? : CssResize, container_type? : CssContainerType, container_name? : String, color_scheme? : CssColorScheme, accent_color? : CssColor, width_extended? : CssSize, height_extended? : CssSize, margin_extended? : CssSize, padding_extended? : CssSize, border_radius_obj? : CssBorderRadius, box_shadow_obj? : CssBoxShadow, background_image? : CssBackgroundImage, clip_path? : CssClipPath, text_shadow? : CssTextShadow, letter_spacing_type? : CssLetterSpacing, pointer_events? : CssPointerEvents, transition_prop? : CssTransitionProperty) -> RespoStyle
 
 pub fn str_spaced(wrap_parens? : Bool, Array[&Show]) -> String
 
@@ -151,6 +151,16 @@ pub(all) enum CssColor {
   VarWithFallback(String, String)
 } derive(Eq)
 pub impl Show for CssColor
+
+pub(all) enum CssColorScheme {
+  Normal
+  Light
+  Dark
+  LightDark
+  OnlyLight
+  OnlyDark
+} derive(Eq)
+pub impl Show for CssColorScheme
 
 pub(all) enum CssContainerType {
   Normal
@@ -499,10 +509,30 @@ pub(all) enum CssSize {
   Vmax(Float)
   Dvh(Float)
   Dvw(Float)
+  Dvmin(Float)
+  Dvmax(Float)
+  Dvb(Float)
+  Dvi(Float)
   Lvh(Float)
   Lvw(Float)
+  Lvmin(Float)
+  Lvmax(Float)
+  Lvb(Float)
+  Lvi(Float)
   Svh(Float)
   Svw(Float)
+  Svmin(Float)
+  Svmax(Float)
+  Svb(Float)
+  Svi(Float)
+  Vb(Float)
+  Vi(Float)
+  Cqw(Float)
+  Cqh(Float)
+  Cqi(Float)
+  Cqb(Float)
+  Cqmin(Float)
+  Cqmax(Float)
   Function(CssFunction)
   Custom(String)
   Var(String)
