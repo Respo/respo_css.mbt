@@ -79,6 +79,8 @@ let _extended : RespoStyle = combined.add("custom-property", "custom-value")
 - **Typography**: `font-size`, `font-weight`, `text-align`, `text-decoration`, etc.
 - **Transforms**: `transform`, `transition`, `animation`, etc.
 - **Grid**: `grid-template-columns`, `grid-template-rows`, `grid-area`, etc.
+- **Responsive layout**: typed flex growth/wrapping, axis-specific overflow,
+  row/column gaps, logical insets, container queries, and modern viewport units.
 
 ## API Documentation
 
@@ -95,6 +97,30 @@ let _extended : RespoStyle = combined.add("custom-property", "custom-value")
 - `.merge(other)`: Merge two styles
 - `.add(property, value)`: Add custom CSS properties
 - `.to_string()`: Convert to CSS string
+
+### Responsive Layout
+
+Use typed layout properties for the common cases, while retaining `.add()` for
+new or application-specific CSS declarations:
+
+```moonbit nocheck
+///|
+let card = respo_style(
+  display=CssDisplay::Flex,
+  flex_wrap=CssFlexWrap::Wrap,
+  flex_basis=CssSize::Percent(50.0),
+  flex_grow=1.0,
+  row_gap=CssSize::Px(8.0),
+  column_gap=CssSize::Px(16.0),
+  min_height=CssSize::Dvh(100.0),
+  container_type=CssContainerType::InlineSize,
+  color_scheme=CssColorScheme::LightDark,
+)
+```
+
+`CssSize` includes dynamic, small, and large viewport units as well as
+container query units such as `Cqw`, `Cqi`, and `Cqmax`. `CssColor` supports
+modern perceptual colors through `Oklch` and `Oklab`.
 
 ## Development and Contributing
 

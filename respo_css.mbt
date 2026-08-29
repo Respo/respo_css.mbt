@@ -83,6 +83,14 @@ pub(all) enum CssSize {
   /// inspect(CssSize::Dvw(100.0), content="100dvw")
   /// ```
   Dvw(Float)
+  /// Dynamic viewport minimum - smaller of the dynamic viewport axes
+  Dvmin(Float)
+  /// Dynamic viewport maximum - larger of the dynamic viewport axes
+  Dvmax(Float)
+  /// Dynamic viewport block axis
+  Dvb(Float)
+  /// Dynamic viewport inline axis
+  Dvi(Float)
   /// Large viewport height - largest possible viewport height
   /// ```mbt
   /// inspect(CssSize::Lvh(100.0), content="100lvh")
@@ -93,6 +101,14 @@ pub(all) enum CssSize {
   /// inspect(CssSize::Lvw(100.0), content="100lvw")
   /// ```
   Lvw(Float)
+  /// Large viewport minimum - smaller of the large viewport axes
+  Lvmin(Float)
+  /// Large viewport maximum - larger of the large viewport axes
+  Lvmax(Float)
+  /// Large viewport block axis
+  Lvb(Float)
+  /// Large viewport inline axis
+  Lvi(Float)
   /// Small viewport height - smallest possible viewport height
   /// ```mbt
   /// inspect(CssSize::Svh(100.0), content="100svh")
@@ -103,6 +119,30 @@ pub(all) enum CssSize {
   /// inspect(CssSize::Svw(100.0), content="100svw")
   /// ```
   Svw(Float)
+  /// Small viewport minimum - smaller of the small viewport axes
+  Svmin(Float)
+  /// Small viewport maximum - larger of the small viewport axes
+  Svmax(Float)
+  /// Small viewport block axis
+  Svb(Float)
+  /// Small viewport inline axis
+  Svi(Float)
+  /// Viewport block axis
+  Vb(Float)
+  /// Viewport inline axis
+  Vi(Float)
+  /// Container query width
+  Cqw(Float)
+  /// Container query height
+  Cqh(Float)
+  /// Container query inline axis
+  Cqi(Float)
+  /// Container query block axis
+  Cqb(Float)
+  /// Smaller of the container query axes
+  Cqmin(Float)
+  /// Larger of the container query axes
+  Cqmax(Float)
   /// CSS functions like calc(), min(), max(), clamp()
   /// ```mbt
   /// inspect(CssSize::Function(CssFunction::Calc("100vw - 40px")), content="calc(100vw - 40px)")
@@ -126,7 +166,7 @@ pub(all) enum CssSize {
 } derive(Eq)
 
 ///|
-pub impl Show for CssSize with output(self, logger) {
+pub impl Show for CssSize with fn output(self, logger) {
   let ret = match self {
     Auto => "auto"
     Px(value) => "\{value}px"
@@ -142,10 +182,30 @@ pub impl Show for CssSize with output(self, logger) {
     Vmax(value) => "\{value}vmax"
     Dvh(value) => "\{value}dvh"
     Dvw(value) => "\{value}dvw"
+    Dvmin(value) => "\{value}dvmin"
+    Dvmax(value) => "\{value}dvmax"
+    Dvb(value) => "\{value}dvb"
+    Dvi(value) => "\{value}dvi"
     Lvh(value) => "\{value}lvh"
     Lvw(value) => "\{value}lvw"
+    Lvmin(value) => "\{value}lvmin"
+    Lvmax(value) => "\{value}lvmax"
+    Lvb(value) => "\{value}lvb"
+    Lvi(value) => "\{value}lvi"
     Svh(value) => "\{value}svh"
     Svw(value) => "\{value}svw"
+    Svmin(value) => "\{value}svmin"
+    Svmax(value) => "\{value}svmax"
+    Svb(value) => "\{value}svb"
+    Svi(value) => "\{value}svi"
+    Vb(value) => "\{value}vb"
+    Vi(value) => "\{value}vi"
+    Cqw(value) => "\{value}cqw"
+    Cqh(value) => "\{value}cqh"
+    Cqi(value) => "\{value}cqi"
+    Cqb(value) => "\{value}cqb"
+    Cqmin(value) => "\{value}cqmin"
+    Cqmax(value) => "\{value}cqmax"
     Function(func) => func.to_string()
     Custom(value) => value
     Var(name) => "var(" + name + ")"
@@ -203,7 +263,7 @@ pub fn RespoStyle::is_empty(self : RespoStyle) -> Bool {
 }
 
 ///|
-pub impl Show for RespoStyle with output(self, logger) {
+pub impl Show for RespoStyle with fn output(self, logger) {
   let mut result = ""
   for pair in self.0 {
     let (property, value) = pair
@@ -264,12 +324,20 @@ pub fn respo_style(
   float? : String,
   clear? : String,
   overflow? : CssOverflow,
+  overflow_x? : CssOverflow,
+  overflow_y? : CssOverflow,
   z_index? : Int,
   flex? : Float,
+  flex_grow? : Float,
+  flex_shrink? : Float,
+  flex_basis? : CssSize,
+  flex_wrap? : CssFlexWrap,
   flex_direction? : CssFlexDirection,
   justify_content? : CssFlexJustifyContent,
   align_items? : CssFlexAlignItems,
   align_content? : CssFlexAlignContent,
+  align_self? : CssFlexAlignItems,
+  justify_self? : CssJustifyItems,
   order? : Int,
 
   // Text Styling
@@ -279,6 +347,7 @@ pub fn respo_style(
   letter_spacing? : String,
   white_space? : String,
   word_break? : CssWordBreak,
+  text_overflow? : CssTextOverflow,
 
   // Visual Effects
   opacity? : Float,
@@ -326,8 +395,14 @@ pub fn respo_style(
   margin_left? : CssSize,
   margin_right? : CssSize,
   max_height? : CssSize,
+  min_height? : CssSize,
   transform_property? : Array[String],
   gap? : CssSize,
+  row_gap? : CssSize,
+  column_gap? : CssSize,
+  inset? : CssSize,
+  inset_inline? : CssSize,
+  inset_block? : CssSize,
   content? : String,
   content_visibility? : CssContentVisibility,
   filter? : CssFilter,
@@ -365,6 +440,8 @@ pub fn respo_style(
   resize? : CssResize,
   container_type? : CssContainerType,
   container_name? : String,
+  color_scheme? : CssColorScheme,
+  accent_color? : CssColor,
 
   // CSS Functions and Extended Sizes
   width_extended? : CssSize,
@@ -442,11 +519,29 @@ pub fn respo_style(
   if overflow is Some(value) {
     style.push(("overflow", value.to_string()))
   }
+  if overflow_x is Some(value) {
+    style.push(("overflow-x", value.to_string()))
+  }
+  if overflow_y is Some(value) {
+    style.push(("overflow-y", value.to_string()))
+  }
   if z_index is Some(value) {
     style.push(("z-index", value.to_string()))
   }
   if flex is Some(value) {
     style.push(("flex", value.to_string()))
+  }
+  if flex_grow is Some(value) {
+    style.push(("flex-grow", value.to_string()))
+  }
+  if flex_shrink is Some(value) {
+    style.push(("flex-shrink", value.to_string()))
+  }
+  if flex_basis is Some(value) {
+    style.push(("flex-basis", value.to_string()))
+  }
+  if flex_wrap is Some(value) {
+    style.push(("flex-wrap", value.to_string()))
   }
   if flex_direction is Some(value) {
     style.push(("flex-direction", value.to_string()))
@@ -459,6 +554,12 @@ pub fn respo_style(
   }
   if align_content is Some(value) {
     style.push(("align-content", value.to_string()))
+  }
+  if align_self is Some(value) {
+    style.push(("align-self", value.to_string()))
+  }
+  if justify_self is Some(value) {
+    style.push(("justify-self", value.to_string()))
   }
   if order is Some(value) {
     style.push(("order", value.to_string()))
@@ -480,6 +581,9 @@ pub fn respo_style(
   }
   if word_break is Some(value) {
     style.push(("word-break", value.to_string()))
+  }
+  if text_overflow is Some(value) {
+    style.push(("text-overflow", value.to_string()))
   }
   if opacity is Some(value) {
     style.push(("opacity", value.to_string()))
@@ -608,12 +712,30 @@ pub fn respo_style(
   if max_height is Some(value) {
     style.push(("max-height", value.to_string()))
   }
+  if min_height is Some(value) {
+    style.push(("min-height", value.to_string()))
+  }
   if transform_property is Some(xs) {
     let value = xs.join(",")
     style.push(("transform-property", value))
   }
   if gap is Some(value) {
     style.push(("gap", value.to_string()))
+  }
+  if row_gap is Some(value) {
+    style.push(("row-gap", value.to_string()))
+  }
+  if column_gap is Some(value) {
+    style.push(("column-gap", value.to_string()))
+  }
+  if inset is Some(value) {
+    style.push(("inset", value.to_string()))
+  }
+  if inset_inline is Some(value) {
+    style.push(("inset-inline", value.to_string()))
+  }
+  if inset_block is Some(value) {
+    style.push(("inset-block", value.to_string()))
   }
   if content is Some(value) {
     style.push(("content", value))
@@ -710,6 +832,12 @@ pub fn respo_style(
   if container_name is Some(value) {
     style.push(("container-name", value))
   }
+  if color_scheme is Some(value) {
+    style.push(("color-scheme", value.to_string()))
+  }
+  if accent_color is Some(value) {
+    style.push(("accent-color", value.to_string()))
+  }
 
   // CSS Functions and Extended Sizes
   if width_extended is Some(value) {
@@ -760,7 +888,7 @@ pub(all) enum CssOutline {
 } derive(Eq)
 
 ///|
-pub impl Show for CssOutline with output(self, logger) {
+pub impl Show for CssOutline with fn output(self, logger) {
   let ret = match self {
     None => "none"
     Outline(width, style, color) =>
@@ -786,7 +914,7 @@ pub(all) enum CssDuration {
 }
 
 ///|
-pub impl Show for CssDuration with output(self, logger) {
+pub impl Show for CssDuration with fn output(self, logger) {
   let ret = match self {
     Ms(value) => value.to_string() + "ms"
     S(value) => value.to_string() + "s"
@@ -805,7 +933,7 @@ pub(all) enum CssUserSelect {
 }
 
 ///|
-pub impl Show for CssUserSelect with output(self, logger) {
+pub impl Show for CssUserSelect with fn output(self, logger) {
   let ret = match self {
     None => "none"
     Text => "text"
@@ -859,7 +987,7 @@ pub(all) enum CssPosition {
 } derive(Eq)
 
 ///|
-pub impl Show for CssPosition with output(self, logger) {
+pub impl Show for CssPosition with fn output(self, logger) {
   let ret = match self {
     Static => "static"
     Relative => "relative"
@@ -968,7 +1096,7 @@ fn uint_to_hex(value : UInt) -> String {
 }
 
 ///|
-pub impl Show for CssColor with output(self, logger) {
+pub impl Show for CssColor with fn output(self, logger) {
   let ret = match self {
     Hsla(h, s, l, a) => {
       let h_str = h.to_string()
@@ -1095,7 +1223,7 @@ pub(all) enum CssLineHeight {
 } derive(Eq)
 
 ///|
-pub impl Show for CssLineHeight with output(self, logger) {
+pub impl Show for CssLineHeight with fn output(self, logger) {
   let ret = match self {
     Em(value) => value.to_string() + "em"
     Px(value) => value.to_string() + "px"
@@ -1114,7 +1242,7 @@ pub(all) enum CssWordBreak {
 }
 
 ///|
-pub impl Show for CssWordBreak with output(self, logger) {
+pub impl Show for CssWordBreak with fn output(self, logger) {
   let ret = match self {
     Normal => "normal"
     BreakAll => "break-all"
@@ -1182,7 +1310,7 @@ pub(all) enum CssDisplay {
 } derive(Eq)
 
 ///|
-pub impl Show for CssDisplay with output(self, logger) {
+pub impl Show for CssDisplay with fn output(self, logger) {
   let ret = match self {
     Block => "block"
     Inline => "inline"
@@ -1228,7 +1356,7 @@ pub(all) enum CssFlexWrap {
 } derive(Eq)
 
 ///|
-pub impl Show for CssFlexWrap with output(self, logger) {
+pub impl Show for CssFlexWrap with fn output(self, logger) {
   let ret = match self {
     Wrap => "wrap"
     Nowrap => "nowrap"
@@ -1275,7 +1403,7 @@ pub(all) enum CssFlexDirection {
 } derive(Eq)
 
 ///|
-pub impl Show for CssFlexDirection with output(self, logger) {
+pub impl Show for CssFlexDirection with fn output(self, logger) {
   let ret = match self {
     Row => "row"
     RowReverse => "row-reverse"
@@ -1317,7 +1445,7 @@ pub(all) enum CssVerticalAlign {
 }
 
 ///|
-pub impl Show for CssVerticalAlign with output(self, logger) {
+pub impl Show for CssVerticalAlign with fn output(self, logger) {
   let ret = match self {
     Top => "top"
     Middle => "middle"
@@ -1373,7 +1501,7 @@ pub(all) enum CssFlexJustifyContent {
 } derive(Eq)
 
 ///|
-pub impl Show for CssFlexJustifyContent with output(self, logger) {
+pub impl Show for CssFlexJustifyContent with fn output(self, logger) {
   let ret = match self {
     FlexStart => "flex-start"
     FlexEnd => "flex-end"
@@ -1427,7 +1555,7 @@ pub(all) enum CssFlexAlignItems {
 } derive(Eq)
 
 ///|
-pub impl Show for CssFlexAlignItems with output(self, logger) {
+pub impl Show for CssFlexAlignItems with fn output(self, logger) {
   let ret = match self {
     FlexStart => "flex-start"
     FlexEnd => "flex-end"
@@ -1485,7 +1613,7 @@ pub(all) enum CssFlexAlignContent {
 } derive(Eq)
 
 ///|
-pub impl Show for CssFlexAlignContent with output(self, logger) {
+pub impl Show for CssFlexAlignContent with fn output(self, logger) {
   let ret = match self {
     FlexStart => "flex-start"
     FlexEnd => "flex-end"
@@ -1529,7 +1657,7 @@ pub(all) enum CssBorderStyle {
 } derive(Eq)
 
 ///|
-pub impl Show for CssBorderStyle with output(self, logger) {
+pub impl Show for CssBorderStyle with fn output(self, logger) {
   let ret = match self {
     Solid => "solid"
     Dashed => "dashed"
@@ -1564,7 +1692,7 @@ pub impl Show for CssBorderStyle with output(self, logger) {
 pub(all) struct CssBorder(Float, CssBorderStyle, CssColor)
 
 ///|
-pub impl Show for CssBorder with output(self, logger) {
+pub impl Show for CssBorder with fn output(self, logger) {
   let CssBorder(width, style, color) = self
   let ret = str_spaced([width |> CssSize::Px, style, color])
   logger.write_string(ret)
@@ -1611,7 +1739,7 @@ pub(all) enum CssBackgroundSize {
 } derive(Eq)
 
 ///|
-pub impl Show for CssBackgroundSize with output(self, logger) {
+pub impl Show for CssBackgroundSize with fn output(self, logger) {
   let ret = match self {
     Cover => "cover"
     Contain => "contain"
@@ -1658,7 +1786,7 @@ pub(all) enum CssOverflow {
 } derive(Eq)
 
 ///|
-pub impl Show for CssOverflow with output(self, logger) {
+pub impl Show for CssOverflow with fn output(self, logger) {
   let ret = match self {
     Visible => "visible"
     Hidden => "hidden"
@@ -1720,7 +1848,7 @@ pub(all) enum CssTransform {
 } derive(Eq)
 
 ///|
-pub impl Show for CssTransform with output(self, logger) {
+pub impl Show for CssTransform with fn output(self, logger) {
   let ret = match self {
     Translate(x, y) => "translate(\{x}px, \{y}px)"
     TranslateX(x) => "translateX(\{x}px)"
@@ -1795,7 +1923,7 @@ pub(all) enum CssTimingFunction {
 } derive(Eq)
 
 ///|
-pub impl Show for CssTimingFunction with output(self, logger) {
+pub impl Show for CssTimingFunction with fn output(self, logger) {
   let ret = match self {
     Ease => "ease"
     Linear => "linear"
@@ -1836,7 +1964,7 @@ pub(all) enum CssTextOverflow {
 } derive(Eq)
 
 ///|
-pub impl Show for CssTextOverflow with output(self, logger) {
+pub impl Show for CssTextOverflow with fn output(self, logger) {
   let ret = match self {
     Clip => "clip"
     Ellipsis => "ellipsis"
@@ -1870,7 +1998,7 @@ pub(all) enum CssBoxSizing {
 } derive(Eq)
 
 ///|
-pub impl Show for CssBoxSizing with output(self, logger) {
+pub impl Show for CssBoxSizing with fn output(self, logger) {
   let ret = match self {
     BorderBox => "border-box"
     ContentBox => "content-box"
@@ -1916,7 +2044,7 @@ pub(all) enum CssTextAlign {
 } derive(Eq)
 
 ///|
-pub impl Show for CssTextAlign with output(self, logger) {
+pub impl Show for CssTextAlign with fn output(self, logger) {
   let ret = match self {
     Left => "left"
     Right => "right"
@@ -1968,7 +2096,7 @@ pub(all) enum CssFontWeight {
 } derive(Eq)
 
 ///|
-pub impl Show for CssFontWeight with output(self, logger) {
+pub impl Show for CssFontWeight with fn output(self, logger) {
   let ret = match self {
     Normal => "normal"
     Bold => "bold"
@@ -2017,7 +2145,7 @@ pub(all) enum CssTextDecoration {
 } derive(Eq)
 
 ///|
-pub impl Show for CssTextDecoration with output(self, logger) {
+pub impl Show for CssTextDecoration with fn output(self, logger) {
   let ret = match self {
     None => "none"
     Underline => "underline"
@@ -2225,7 +2353,7 @@ pub(all) enum CssCursor {
 } derive(Eq)
 
 ///|
-pub impl Show for CssCursor with output(self, logger) {
+pub impl Show for CssCursor with fn output(self, logger) {
   let ret = match self {
     Auto => "auto"
     Default => "default"
@@ -2299,7 +2427,7 @@ pub(all) enum CssContentVisibility {
 } derive(Eq)
 
 ///|
-pub impl Show for CssContentVisibility with output(self, logger) {
+pub impl Show for CssContentVisibility with fn output(self, logger) {
   let ret = match self {
     Visible => "visible"
     Hidden => "hidden"
@@ -2398,7 +2526,7 @@ pub(all) enum CssFilter {
 }
 
 ///|
-pub impl Show for CssFilter with output(self, logger) {
+pub impl Show for CssFilter with fn output(self, logger) {
   let ret = match self {
     None => "none"
     Blur(value) => "blur(" + value.to_string() + "px)"
@@ -2475,7 +2603,7 @@ pub(all) enum CssObjectFit {
 } derive(Eq)
 
 ///|
-pub impl Show for CssObjectFit with output(self, logger) {
+pub impl Show for CssObjectFit with fn output(self, logger) {
   let ret = match self {
     Fill => "fill"
     Contain => "contain"
@@ -2518,7 +2646,7 @@ pub(all) enum CssOverscrollBehavior {
 }
 
 ///|
-pub impl Show for CssOverscrollBehavior with output(self, logger) {
+pub impl Show for CssOverscrollBehavior with fn output(self, logger) {
   let ret = match self {
     Auto => "auto"
     Contain => "contain"
@@ -2580,7 +2708,7 @@ pub(all) enum CssGridTemplateColumns {
 } derive(Eq)
 
 ///|
-pub impl Show for CssGridTemplateColumns with output(self, logger) {
+pub impl Show for CssGridTemplateColumns with fn output(self, logger) {
   let ret = match self {
     None => "none"
     Auto => "auto"
@@ -2643,7 +2771,7 @@ pub(all) enum CssGridTemplateRows {
 } derive(Eq)
 
 ///|
-pub impl Show for CssGridTemplateRows with output(self, logger) {
+pub impl Show for CssGridTemplateRows with fn output(self, logger) {
   let ret = match self {
     None => "none"
     Auto => "auto"
@@ -2701,7 +2829,7 @@ pub(all) enum CssGridArea {
 } derive(Eq)
 
 ///|
-pub impl Show for CssGridArea with output(self, logger) {
+pub impl Show for CssGridArea with fn output(self, logger) {
   let ret = match self {
     Auto => "auto"
     Span(count) => "span " + count.to_string()
@@ -2722,7 +2850,7 @@ pub(all) enum CssJustifyItems {
 } derive(Eq)
 
 ///|
-pub impl Show for CssJustifyItems with output(self, logger) {
+pub impl Show for CssJustifyItems with fn output(self, logger) {
   let ret = match self {
     Start => "start"
     End => "end"
@@ -2743,7 +2871,7 @@ pub(all) enum CssAlignItems {
 } derive(Eq)
 
 ///|
-pub impl Show for CssAlignItems with output(self, logger) {
+pub impl Show for CssAlignItems with fn output(self, logger) {
   let ret = match self {
     Start => "start"
     End => "end"
@@ -2784,7 +2912,7 @@ pub(all) enum CssAnimationDirection {
 } derive(Eq)
 
 ///|
-pub impl Show for CssAnimationDirection with output(self, logger) {
+pub impl Show for CssAnimationDirection with fn output(self, logger) {
   let ret = match self {
     Normal => "normal"
     Reverse => "reverse"
@@ -2803,7 +2931,7 @@ pub(all) enum CssAnimationFillMode {
 } derive(Eq)
 
 ///|
-pub impl Show for CssAnimationFillMode with output(self, logger) {
+pub impl Show for CssAnimationFillMode with fn output(self, logger) {
   let ret = match self {
     None => "none"
     Forwards => "forwards"
@@ -2820,7 +2948,7 @@ pub(all) enum CssAnimationPlayState {
 } derive(Eq)
 
 ///|
-pub impl Show for CssAnimationPlayState with output(self, logger) {
+pub impl Show for CssAnimationPlayState with fn output(self, logger) {
   let ret = match self {
     Running => "running"
     Paused => "paused"
@@ -2860,7 +2988,7 @@ pub(all) enum CssFunction {
 } derive(Eq)
 
 ///|
-pub impl Show for CssFunction with output(self, logger) {
+pub impl Show for CssFunction with fn output(self, logger) {
   let ret = match self {
     Calc(expr) => "calc(" + expr + ")"
     Min(values) => {
@@ -2898,7 +3026,7 @@ pub(all) enum CssFontStyle {
 } derive(Eq)
 
 ///|
-pub impl Show for CssFontStyle with output(self, logger) {
+pub impl Show for CssFontStyle with fn output(self, logger) {
   let ret = match self {
     Normal => "normal"
     Italic => "italic"
@@ -2923,7 +3051,7 @@ pub(all) enum CssFontVariant {
 } derive(Eq)
 
 ///|
-pub impl Show for CssFontVariant with output(self, logger) {
+pub impl Show for CssFontVariant with fn output(self, logger) {
   let ret = match self {
     Normal => "normal"
     SmallCaps => "small-caps"
@@ -2947,7 +3075,7 @@ pub(all) enum CssTextTransform {
 } derive(Eq)
 
 ///|
-pub impl Show for CssTextTransform with output(self, logger) {
+pub impl Show for CssTextTransform with fn output(self, logger) {
   let ret = match self {
     None => "none"
     Capitalize => "capitalize"
@@ -2955,6 +3083,30 @@ pub impl Show for CssTextTransform with output(self, logger) {
     Lowercase => "lowercase"
     FullWidth => "full-width"
     FullSizeKana => "full-size-kana"
+  }
+  logger.write_string(ret)
+}
+
+///|
+/// CSS Container Query Properties
+pub(all) enum CssColorScheme {
+  Normal
+  Light
+  Dark
+  LightDark
+  OnlyLight
+  OnlyDark
+} derive(Eq)
+
+///|
+pub impl Show for CssColorScheme with fn output(self, logger) {
+  let ret = match self {
+    Normal => "normal"
+    Light => "light"
+    Dark => "dark"
+    LightDark => "light dark"
+    OnlyLight => "only light"
+    OnlyDark => "only dark"
   }
   logger.write_string(ret)
 }
@@ -2969,7 +3121,7 @@ pub(all) enum CssContainerType {
 } derive(Eq)
 
 ///|
-pub impl Show for CssContainerType with output(self, logger) {
+pub impl Show for CssContainerType with fn output(self, logger) {
   let ret = match self {
     Normal => "normal"
     Size => "size"
@@ -2989,7 +3141,7 @@ pub(all) enum CssLogicalProperty {
 } derive(Eq)
 
 ///|
-pub impl Show for CssLogicalProperty with output(self, logger) {
+pub impl Show for CssLogicalProperty with fn output(self, logger) {
   let ret = match self {
     InlineStart => "inline-start"
     InlineEnd => "inline-end"
@@ -3008,7 +3160,7 @@ pub(all) enum CssAspectRatio {
 } derive(Eq)
 
 ///|
-pub impl Show for CssAspectRatio with output(self, logger) {
+pub impl Show for CssAspectRatio with fn output(self, logger) {
   let ret = match self {
     CssAspectRatio::Auto => "auto"
     Ratio(width, height) => "\{width} / \{height}"
@@ -3025,7 +3177,7 @@ pub(all) enum CssScrollBehavior {
 } derive(Eq)
 
 ///|
-pub impl Show for CssScrollBehavior with output(self, logger) {
+pub impl Show for CssScrollBehavior with fn output(self, logger) {
   let ret = match self {
     CssScrollBehavior::Auto => "auto"
     Smooth => "smooth"
@@ -3045,7 +3197,7 @@ pub(all) enum CssResize {
 } derive(Eq)
 
 ///|
-pub impl Show for CssResize with output(self, logger) {
+pub impl Show for CssResize with fn output(self, logger) {
   let ret = match self {
     CssResize::None => "none"
     CssResize::Both => "both"
