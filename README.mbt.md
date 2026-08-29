@@ -153,6 +153,10 @@ We welcome community contributions! You can participate in the following ways:
 
 ### Development Environment
 
+CI verifies against MoonBit `0.1.20260827`. The setup action downloads the
+latest available toolchain and immediately rejects version drift, so upgrading
+MoonBit requires an explicit workflow update and a fresh validation run.
+
 ```bash
 # Clone the repository
 git clone https://github.com/tiye/respo_css.git
@@ -174,6 +178,22 @@ moon build
 - Add corresponding test cases for new features
 - Provide complete documentation comments for public APIs
 - Use `inspect` format to provide usage examples
+
+### Release Checklist
+
+1. Merge a reviewed PR that updates `moon.mod`, `CHANGELOG.md`, and generated
+   interfaces together.
+2. Run `moon update`, `moon check --target js`, `moon test`, `moon info`, and
+   `moon fmt` from a clean checkout; the tree must remain clean afterwards.
+3. Create a GitHub release whose tag exactly matches the module version (for
+   example, `0.1.7` or `v0.1.7`). The release workflow repeats the verification
+   before publishing.
+4. Verify a clean downstream `moon add tiye/respo_css@<version>` installation
+   and build before closing the release issue.
+
+If publication fails after a release is created, do not retag or overwrite the
+same version. Fix the problem, increment the patch version, and create a new
+release with clear recovery notes.
 
 ## License
 
