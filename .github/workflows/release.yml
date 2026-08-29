@@ -7,24 +7,48 @@ on:
 jobs:
   publish:
     runs-on: ubuntu-22.04
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v4
 
-      - name: install moonbit
+      - name: Setup MoonBit
+        uses: hustcer/setup-moonbit@v1
+        with:
+          version: latest
+
+      - name: Verify MoonBit version
         run: |
-          curl -fsSL https://cli.moonbitlang.com/install/unix.sh | bash
-          echo "$HOME/.moon/bin" >> $GITHUB_PATH
+          expected_version="0.1.20260827"
+          installed_version="$(moon version | sed -nE '1s/^moon ([^ ]+).*/\1/p')"
+          test "$installed_version" = "$expected_version"
 
-      - name: moon check
-        run: moon update && moon version && moon check --target js
-
-      - name: moon test
-        run: moon build --target js --debug
-
-      - name: setup credentials
+      - name: Validate release tag
         run: |
+          module_version="$(sed -nE 's/^version = "([^"]+)"/\1/p' moon.mod)"
+          test -n "$module_version"
+          case "$GITHUB_REF_NAME" in
+            "$module_version"|"v$module_version") ;;
+            *)
+              echo "Release tag $GITHUB_REF_NAME does not match moon.mod version $module_version"
+              exit 1
+              ;;
+          esac
+
+      - name: Validate package
+        run: |
+          moon update
+          moon check --target js
+          moon test
+          moon info
+          moon fmt
+          git diff --exit-code
+
+      - name: Setup publish credentials
+        run: |
+          umask 077
           mkdir -p ~/.moon
-          echo '${{ secrets.MOON_CREDENTIALS }}' > ~/.moon/credentials.json
+          printf '%s' '${{ secrets.MOON_CREDENTIALS }}' > ~/.moon/credentials.json
 
       - name: moon publish
         run: moon publish

@@ -17,7 +17,7 @@ pub fn CssBorderRadius::new(
   bottom_left? : CssSize,
   bottom_right? : CssSize,
 ) -> CssBorderRadius {
-  CssBorderRadius::{ top_left, top_right, bottom_left, bottom_right }
+  CssBorderRadius::{ top_left, top_right, bottom_left, bottom_right, }
 }
 
 ///|
@@ -84,11 +84,11 @@ pub fn CssBoxShadow::new(
   color? : CssColor = Black,
   shadow_type? : CssBoxShadowType = Outer,
 ) -> CssBoxShadow {
-  CssBoxShadow::{ x, y, blur, spread, color, shadow_type }
+  CssBoxShadow::{ x, y, blur, spread, color, shadow_type, }
 }
 
 ///|
-pub impl Show for CssBoxShadow with output(self, logger) {
+pub impl Show for CssBoxShadow with fn output(self, logger) {
   let mut ret = ""
   if self.shadow_type == Inset {
     ret = ret + "inset "
@@ -125,7 +125,7 @@ pub fn CssGradientStop::new(
   color : CssColor,
   position? : CssSize,
 ) -> CssGradientStop {
-  CssGradientStop::{ color, position }
+  CssGradientStop::{ color, position, }
 }
 
 ///|
@@ -136,7 +136,7 @@ pub(all) enum CssGradient {
 } derive(Eq)
 
 ///|
-pub impl Show for CssGradient with output(self, logger) {
+pub impl Show for CssGradient with fn output(self, logger) {
   let ret = match self {
     Linear(angle, stops) => {
       let mut result = "linear-gradient("
@@ -204,11 +204,11 @@ pub fn CssTransitionProperty::new(
   timing_function? : CssTimingFunction,
   delay? : CssDuration,
 ) -> CssTransitionProperty {
-  CssTransitionProperty::{ property, duration, timing_function, delay }
+  CssTransitionProperty::{ property, duration, timing_function, delay, }
 }
 
 ///|
-pub impl Show for CssTransitionProperty with output(self, logger) {
+pub impl Show for CssTransitionProperty with fn output(self, logger) {
   let mut ret = self.property + " " + self.duration.to_string()
   if self.timing_function is Some(tf) {
     ret = ret + " " + tf.to_string()
@@ -231,7 +231,7 @@ pub fn CssKeyframe::new(
   position : Int,
   styles : Array[(String, String)],
 ) -> CssKeyframe {
-  CssKeyframe::{ position, styles }
+  CssKeyframe::{ position, styles, }
 }
 
 ///|
@@ -245,7 +245,7 @@ pub fn CssKeyframes::new(
   name : String,
   keyframes : Array[CssKeyframe],
 ) -> CssKeyframes {
-  CssKeyframes::{ name, keyframes }
+  CssKeyframes::{ name, keyframes, }
 }
 
 ///|
@@ -277,7 +277,7 @@ pub(all) enum CssPointerEvents {
 } derive(Eq)
 
 ///|
-pub impl Show for CssPointerEvents with output(self, logger) {
+pub impl Show for CssPointerEvents with fn output(self, logger) {
   let ret = match self {
     Auto => "auto"
     None => "none"
@@ -300,7 +300,7 @@ pub(all) enum CssLetterSpacing {
 } derive(Eq)
 
 ///|
-pub impl Show for CssLetterSpacing with output(self, logger) {
+pub impl Show for CssLetterSpacing with fn output(self, logger) {
   let ret = match self {
     Normal => "normal"
     Value(size) => size.to_string()
@@ -325,11 +325,11 @@ pub fn CssTextShadow::new(
   blur? : CssSize = Px(0.0),
   color? : CssColor = Black,
 ) -> CssTextShadow {
-  CssTextShadow::{ x, y, blur, color }
+  CssTextShadow::{ x, y, blur, color, }
 }
 
 ///|
-pub impl Show for CssTextShadow with output(self, logger) {
+pub impl Show for CssTextShadow with fn output(self, logger) {
   let ret = self.x.to_string() +
     " " +
     self.y.to_string() +
@@ -352,7 +352,7 @@ pub(all) enum CssClipPath {
 } derive(Eq)
 
 ///|
-pub impl Show for CssClipPath with output(self, logger) {
+pub impl Show for CssClipPath with fn output(self, logger) {
   let ret = match self {
     Circle(radius, x, y) => {
       let r = radius.to_string()
@@ -394,7 +394,7 @@ pub(all) enum CssBackgroundImage {
 } derive(Eq)
 
 ///|
-pub impl Show for CssBackgroundImage with output(self, logger) {
+pub impl Show for CssBackgroundImage with fn output(self, logger) {
   let ret = match self {
     LinearGradient(gradient) => gradient.to_string()
     RadialGradient(gradient) => gradient.to_string()
